@@ -9,6 +9,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 
+
+
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,17 +18,17 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.compositeOver
-import androidx.compose.ui.graphics.vector.Group
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.PaintingStyle.Companion.Stroke
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -118,6 +120,10 @@ fun ProfilePage() {
 
         SavedContainer()
 
+        FriendsContainer()
+
+        InviteFriendContainer()
+
     }
 }
 
@@ -162,6 +168,9 @@ fun profileComplete() {
             )
 
         }
+
+
+
         Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
             Text(
                 text = "Profile Completeness", style = TextStyle(
@@ -583,7 +592,7 @@ fun AchievementItem(isLast: Boolean = false) {
 }
 
 @Composable
-fun SavedContainer(){
+fun SavedContainer() {
 
     Column(modifier = Modifier.padding(16.dp)) {
         Text(
@@ -596,35 +605,50 @@ fun SavedContainer(){
 
         Spacer(modifier = Modifier.size(8.dp))
 
-        Row (horizontalArrangement = Arrangement.SpaceBetween , verticalAlignment = Alignment.CenterVertically , modifier = Modifier.fillMaxWidth()) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
             val modifier = Modifier
-            SavedCard(modifier = modifier)
+            SavedCard("Bookmarks", R.drawable.bookmarks_1)
 
-            SavedCard(modifier = modifier)
+            SavedCard("My Concepts", R.drawable.my_concepts)
         }
 
     }
 
 }
+
 @Composable
-fun SavedCard(modifier: Modifier){
+fun SavedCard(name: String, icon: Int) {
 
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
     val screenWidth = configuration.screenWidthDp.dp - 45.dp
 
 
-    Card(backgroundColor = Color(0xff1E293B) , modifier = modifier
-        .width(screenWidth / 2)
-        .padding(end = 8.dp) , shape = RoundedCornerShape(10.dp)) {
+    Card(
+        backgroundColor = Color(0xff1E293B), modifier = Modifier
+            .width(screenWidth / 2)
+            .padding(end = 8.dp), shape = RoundedCornerShape(10.dp)
+    ) {
 
-        Column (horizontalAlignment = Alignment.CenterHorizontally , verticalArrangement = Arrangement.Center){
-            Image(painter = painterResource(id = R.drawable.radio_1), contentDescription = "" , modifier = Modifier
-                .padding(horizontal = 8.dp , vertical = 16.dp)
-                .size(62.dp) )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+
+            Spacer(modifier = Modifier.size(8.dp))
+
+            Image(
+                painter = painterResource(id = icon), contentDescription = "", modifier = Modifier
+                    .padding(horizontal = 8.dp, vertical = 16.dp)
+                    .size(60.dp)
+            )
 
             Text(
-                text = "Bookmarks",
+                text = name,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.W400,
                 color = Color.White,
@@ -639,6 +663,231 @@ fun SavedCard(modifier: Modifier){
 
 
 }
+
+@Composable
+fun  InviteFriendContainer(){
+
+    Card(backgroundColor = Color(0xFF1E293B), modifier = Modifier
+        .fillMaxWidth()
+        .padding(16.dp) ,
+        shape = RoundedCornerShape(8.dp)
+       )
+
+
+    {
+
+        Row(modifier = Modifier .dashedBorder(width = 1.dp, color = Color(0xff64748B), radius = 8.dp).padding(8.dp)) {
+
+            Image(painter = painterResource(id = R.drawable.people), contentDescription = "" , Modifier.padding(horizontal = 8.dp , vertical = 12.dp).size(66.dp) )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Column (modifier =  Modifier.padding(vertical = 8.dp , horizontal = 18.dp) , horizontalAlignment = Alignment.Start) {
+                Text(
+                    text = "Invite Friends", style = TextStyle(
+                        fontSize = 15.sp,
+                        color = Color.White,
+                        fontWeight = FontWeight.Medium,
+                        fontFamily = Poppins
+                    )
+                )
+                Text(text = "Learn coding with your friends", color = Color(0xff94A3B8) , fontSize = 14.sp , modifier = Modifier.padding(end = 12.dp))
+
+
+                Card(
+                    shape = RoundedCornerShape(5.dp),
+                    elevation = 4.dp,
+                    backgroundColor = Color(0xffFF136F),
+                    modifier = Modifier.padding(vertical = 8.dp)
+                ) {
+
+                    Text(
+                        text = "Invite Friends",
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .padding(vertical = 4.dp  , horizontal = 8.dp),
+                        fontSize = 14.sp
+                    )
+
+                }
+
+            }
+
+        }
+
+
+    }
+
+}
+
+
+@Composable
+fun FriendsContainer() {
+
+    Column(modifier = Modifier.padding(16.dp)) {
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Text(
+                text = "Friends",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.W600,
+                color = Color.White
+            )
+
+            Text(text = "View All", color = Color(0xff94A3B8), fontSize = 11.sp)
+        }
+        
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
+
+            FriendsCard(isFollow = true)
+            FriendsCard()
+            FriendsCard()
+            FriendsCard()
+            FriendsCard()
+            FriendsCard()
+
+        }
+
+    }
+
+}
+
+
+fun Modifier.dashedBorder(width: Dp, radius: Dp, color: Color) =
+    drawBehind {
+        drawIntoCanvas {
+            val paint = Paint()
+                .apply {
+                    strokeWidth = width.toPx()
+                    this.color = color
+                    style = PaintingStyle.Stroke
+                    pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
+                }
+            it.drawRoundRect(
+                width.toPx(),
+                width.toPx(),
+                size.width - width.toPx(),
+                size.height - width.toPx(),
+                radius.toPx(),
+                radius.toPx(),
+                paint
+            )
+        }
+    }
+
+@Composable
+fun FriendsCard(isFollow: Boolean = false) {
+
+    Card(backgroundColor = Color(0xFF1E293B), border = BorderStroke(1.dp, Color(0xff334155)), modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 6.dp)) {
+
+        Box(modifier = Modifier.width(130.dp)) {
+
+            Image(
+                painter = painterResource(id = R.drawable.cross),
+                contentDescription = "",
+                Modifier
+                    .padding(12.dp)
+                    .size(12.dp)
+                    .align(Alignment.TopEnd)
+            )
+
+        }
+
+
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(vertical = 8.dp  , horizontal = 6.dp)
+        ) {
+            Spacer(modifier = Modifier.size(4.dp))
+            Image(
+                painter = painterResource(id = R.drawable.avater),
+                contentDescription = "",
+                modifier = Modifier.size(40.dp)
+            )
+            Text(
+                text = "Zahid Hasan",
+                fontSize = 12.sp,
+                lineHeight = 16.sp,
+                color = Color.White,
+                modifier =
+                Modifier
+                    .width(60.dp)
+                    .padding(top = 6.dp),
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.size(4.dp))
+            Row() {
+                Image(
+                    painter = painterResource(id = R.drawable.small_diamod),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .padding(top = (2.5).dp)
+                        .size(12.dp)
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+                Text(
+                    text = "220",
+                    color = Color(0xff94A3B8),
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.W600
+                )
+
+
+            }
+
+            if(isFollow){
+                Card(
+                    shape = RoundedCornerShape(5.dp),
+                    elevation = 0.dp,
+                    backgroundColor = Color(0xff0F172A),
+                    modifier = Modifier.padding(horizontal = 18.dp, vertical = 6.dp)
+                ) {
+
+                    Text(
+                        text = "Following",
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .width(80.dp),
+                        fontSize = 10.sp
+                    )
+
+                }
+            }else{
+                Card(
+                    shape = RoundedCornerShape(5.dp),
+                    elevation = 4.dp,
+                    backgroundColor = Color(0xffFF136F),
+                    modifier = Modifier.padding(horizontal = 18.dp, vertical = 6.dp)
+                ) {
+
+                    Text(
+                        text = "Follow",
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .width(80.dp),
+                        fontSize = 10.sp
+                    )
+
+                }
+            }
+
+        }
+
+
+    }
+
+}
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
