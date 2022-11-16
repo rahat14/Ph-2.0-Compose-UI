@@ -8,7 +8,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-
+import androidx.compose.foundation.lazy.LazyRow
 
 
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = profileBackgroundColor
                 ) {
-                    ProfilePage()
+                    BookmarkPage()
                 }
             }
         }
@@ -57,6 +57,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ProfilePage() {
+
+
+
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -676,9 +679,14 @@ fun  InviteFriendContainer(){
 
     {
 
-        Row(modifier = Modifier .dashedBorder(width = 1.dp, color = Color(0xff64748B), radius = 8.dp).padding(8.dp)) {
+        Row(modifier = Modifier
+            .dashedBorder(width = 1.dp, color = Color(0xff64748B), radius = 8.dp)
+            .padding(8.dp)) {
 
-            Image(painter = painterResource(id = R.drawable.people), contentDescription = "" , Modifier.padding(horizontal = 8.dp , vertical = 12.dp).size(66.dp) )
+            Image(painter = painterResource(id = R.drawable.people), contentDescription = "" ,
+                Modifier
+                    .padding(horizontal = 8.dp, vertical = 12.dp)
+                    .size(66.dp) )
 
             Spacer(modifier = Modifier.weight(1f))
 
@@ -780,7 +788,8 @@ fun Modifier.dashedBorder(width: Dp, radius: Dp, color: Color) =
 @Composable
 fun FriendsCard(isFollow: Boolean = false) {
 
-    Card(backgroundColor = Color(0xFF1E293B), border = BorderStroke(1.dp, Color(0xff334155)), modifier = Modifier
+    Card(backgroundColor = Color(0xFF1E293B),
+        border = BorderStroke(1.dp, Color(0xff334155)), modifier = Modifier
         .fillMaxWidth()
         .padding(horizontal = 6.dp)) {
 
@@ -893,6 +902,6 @@ fun FriendsCard(isFollow: Boolean = false) {
 @Composable
 fun DefaultPreview() {
     PHUITheme {
-        ProfilePage()
+       BadgePage()
     }
 }
