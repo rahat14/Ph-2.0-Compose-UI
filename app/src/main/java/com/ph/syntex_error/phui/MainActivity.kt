@@ -8,7 +8,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
 
 
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -21,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.PaintingStyle.Companion.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -34,6 +32,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.ph.syntex_error.phui.ui.theme.PHUITheme
 import com.ph.syntex_error.phui.ui.theme.Poppins
 import com.ph.syntex_error.phui.ui.theme.profileBackgroundColor
@@ -43,12 +43,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PHUITheme {
+
                 // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(), color = profileBackgroundColor
-                ) {
-                    BookmarkPage()
-                }
+                val navController = rememberNavController()
+                //VideoCourseDetails()
+               HomePageScreen(navController)
+              //  ModuleLessonItem()
+
             }
         }
     }
@@ -56,10 +57,24 @@ class MainActivity : ComponentActivity() {
 
 
 @Composable
-fun ProfilePage() {
+fun HomePageScreen(navController: NavHostController) {
+
+    Scaffold(
+
+        bottomBar = { BottomNavigationBar(navController) },
+        content = { padding -> // We have to pass the scaffold inner padding to our content. That's why we use Box.
+            Box(modifier = Modifier.padding(padding)) {
+                Navigation(navController = navController)
+            }
+        },
+        backgroundColor = profileBackgroundColor // Set background color to avoid the white flashing when you switch between screens
+    )
+
+}
 
 
-
+@Composable
+fun ProfilePage(navController: NavHostController) {
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -117,13 +132,13 @@ fun ProfilePage() {
 
         ProfileAcivmentCard()
 
-        LiveSupportContainer()
+        LiveSupportContainer(navController)
 
-        AchievementCard()
+        AchievementCard(navController)
 
-        SavedContainer()
+        SavedContainer(navController)
 
-        FriendsContainer()
+        FriendsContainer(navController)
 
         InviteFriendContainer()
 
@@ -362,7 +377,7 @@ fun OptionMenu() {
 }
 
 @Composable
-fun LiveSupportContainer() {
+fun LiveSupportContainer(navController: NavHostController) {
     Card(
         backgroundColor = Color(0xff1E293B),
         shape = RoundedCornerShape(10.dp),
@@ -389,7 +404,15 @@ fun LiveSupportContainer() {
             Text(text = " Live Support", color = Color.White)
 
             Spacer(modifier = Modifier.weight(1f))
-            Card(backgroundColor = Color(0xFFFF136F), modifier = Modifier) {
+            Card(backgroundColor = Color(0xFFFF136F), modifier = Modifier.clickable(
+                onClick = {
+
+                    navController.navigate("gem-store") {
+                        launchSingleTop = true
+                    }
+
+                }
+            )) {
 
                 Row(
                     Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
@@ -414,6 +437,7 @@ fun LiveSupportContainer() {
 
 @Composable
 fun GradientProgressbar1(
+    yellowEffect: Boolean = false,
     indicatorHeight: Dp = 8.dp,
     backgroundIndicatorColor: Color = Color.Black.copy(alpha = 0.2f),
     indicatorPadding: Dp = 8.dp,
@@ -427,7 +451,7 @@ fun GradientProgressbar1(
     animationDuration: Int = 1000,
     animationDelay: Int = 0
 ) {
-    val downloadedPercentage = 20f
+    val downloadedPercentage = 60f
 
     val animateNumber = animateFloatAsState(
         targetValue = downloadedPercentage, animationSpec = tween(
@@ -477,9 +501,21 @@ fun GradientProgressbar1(
                 end = Offset(x = progress, y = size.height / 2)
             )
 
+           if(yellowEffect){
+
+               drawLine(
+                   color = Color(0xffFCD34D),
+                   cap = StrokeCap.Round,
+                   strokeWidth = 8.48f ,
+                   start = Offset(x = 0f * 0.8f, y = size.height / 3),
+                   end = Offset(x = (progress-12), y = size.height / 3)
+               )
+
+           }
+
 
         }
-        Spacer(modifier = Modifier.width(10.dp))
+        Spacer(modifier = Modifier.width(5.dp))
 
         Text(
             text = downloadedPercentage.toInt().toString() + "%",
@@ -493,7 +529,7 @@ fun GradientProgressbar1(
 }
 
 @Composable
-fun AchievementCard() {
+fun AchievementCard(navController: NavHostController) {
 
     Column(horizontalAlignment = Alignment.Start, modifier = Modifier.padding(horizontal = 16.dp)) {
 
@@ -514,10 +550,14 @@ fun AchievementCard() {
         ) {
 
             Column {
-                AchievementItem()
-
-                AchievementItem()
-                AchievementItem(true)
+                AchievementItem(title = "Badges", navController, route = "badge-page")
+                AchievementItem(title = "Certificate", navController, route = "certificate-page")
+                AchievementItem(
+                    title = "Leaderboard",
+                    isLast = true,
+                    navController = navController,
+                    route = "leaderboard-page"
+                )
             }
 
         }
@@ -527,11 +567,22 @@ fun AchievementCard() {
 }
 
 @Composable
-fun AchievementItem(isLast: Boolean = false) {
+fun AchievementItem(
+    title: String = "Badges",
+    navController: NavHostController,
+    isLast: Boolean = false,
+    route: String
+) {
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable {
+                navController.navigate(route) {
+                    launchSingleTop = true
+                }
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
 
@@ -555,7 +606,7 @@ fun AchievementItem(isLast: Boolean = false) {
         Column {
 
             Text(
-                text = "Badges", color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.W400
+                text = title, color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.W400
             )
             Text(
                 text = "Tap to see your all ",
@@ -595,7 +646,7 @@ fun AchievementItem(isLast: Boolean = false) {
 }
 
 @Composable
-fun SavedContainer() {
+fun SavedContainer(navController: NavHostController) {
 
     Column(modifier = Modifier.padding(16.dp)) {
         Text(
@@ -614,9 +665,9 @@ fun SavedContainer() {
             modifier = Modifier.fillMaxWidth()
         ) {
             val modifier = Modifier
-            SavedCard("Bookmarks", R.drawable.bookmarks_1)
+            SavedCard("Bookmarks", R.drawable.bookmarks_1, navController)
 
-            SavedCard("My Concepts", R.drawable.my_concepts)
+            SavedCard("My Concepts", R.drawable.my_concepts, navController)
         }
 
     }
@@ -624,7 +675,7 @@ fun SavedContainer() {
 }
 
 @Composable
-fun SavedCard(name: String, icon: Int) {
+fun SavedCard(name: String, icon: Int, navController: NavHostController) {
 
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
@@ -634,7 +685,13 @@ fun SavedCard(name: String, icon: Int) {
     Card(
         backgroundColor = Color(0xff1E293B), modifier = Modifier
             .width(screenWidth / 2)
-            .padding(end = 8.dp), shape = RoundedCornerShape(10.dp)
+            .padding(end = 8.dp)
+            .clickable {
+                navController.navigate("bookmark-page") {
+                    launchSingleTop = true
+                }
+
+            }, shape = RoundedCornerShape(10.dp)
     ) {
 
         Column(
@@ -668,29 +725,37 @@ fun SavedCard(name: String, icon: Int) {
 }
 
 @Composable
-fun  InviteFriendContainer(){
+fun InviteFriendContainer() {
 
-    Card(backgroundColor = Color(0xFF1E293B), modifier = Modifier
-        .fillMaxWidth()
-        .padding(16.dp) ,
+    Card(
+        backgroundColor = Color(0xFF1E293B), modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
         shape = RoundedCornerShape(8.dp)
-       )
+    )
 
 
     {
 
-        Row(modifier = Modifier
-            .dashedBorder(width = 1.dp, color = Color(0xff64748B), radius = 8.dp)
-            .padding(8.dp)) {
+        Row(
+            modifier = Modifier
+                .dashedBorder(width = 1.dp, color = Color(0xff64748B), radius = 8.dp)
+                .padding(8.dp)
+        ) {
 
-            Image(painter = painterResource(id = R.drawable.people), contentDescription = "" ,
+            Image(
+                painter = painterResource(id = R.drawable.people), contentDescription = "",
                 Modifier
                     .padding(horizontal = 8.dp, vertical = 12.dp)
-                    .size(66.dp) )
+                    .size(66.dp)
+            )
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Column (modifier =  Modifier.padding(vertical = 8.dp , horizontal = 18.dp) , horizontalAlignment = Alignment.Start) {
+            Column(
+                modifier = Modifier.padding(vertical = 8.dp, horizontal = 18.dp),
+                horizontalAlignment = Alignment.Start
+            ) {
                 Text(
                     text = "Invite Friends", style = TextStyle(
                         fontSize = 15.sp,
@@ -699,7 +764,12 @@ fun  InviteFriendContainer(){
                         fontFamily = Poppins
                     )
                 )
-                Text(text = "Learn coding with your friends", color = Color(0xff94A3B8) , fontSize = 14.sp , modifier = Modifier.padding(end = 12.dp))
+                Text(
+                    text = "Learn coding with your friends",
+                    color = Color(0xff94A3B8),
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(end = 12.dp)
+                )
 
 
                 Card(
@@ -714,7 +784,7 @@ fun  InviteFriendContainer(){
                         color = Color.White,
                         textAlign = TextAlign.Center,
                         modifier = Modifier
-                            .padding(vertical = 4.dp  , horizontal = 8.dp),
+                            .padding(vertical = 4.dp, horizontal = 8.dp),
                         fontSize = 14.sp
                     )
 
@@ -731,7 +801,7 @@ fun  InviteFriendContainer(){
 
 
 @Composable
-fun FriendsContainer() {
+fun FriendsContainer(navController: NavHostController) {
 
     Column(modifier = Modifier.padding(16.dp)) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -742,9 +812,14 @@ fun FriendsContainer() {
                 color = Color.White
             )
 
-            Text(text = "View All", color = Color(0xff94A3B8), fontSize = 11.sp)
+            Text(text = "View All", color = Color(0xff94A3B8), fontSize = 11.sp,
+                modifier = Modifier.clickable {
+                    navController.navigate("friend-page") {
+                        launchSingleTop = true
+                    }
+                })
         }
-        
+
         Spacer(modifier = Modifier.height(10.dp))
 
         Row(modifier = Modifier.horizontalScroll(rememberScrollState())) {
@@ -785,123 +860,11 @@ fun Modifier.dashedBorder(width: Dp, radius: Dp, color: Color) =
         }
     }
 
-@Composable
-fun FriendsCard(isFollow: Boolean = false) {
-
-    Card(backgroundColor = Color(0xFF1E293B),
-        border = BorderStroke(1.dp, Color(0xff334155)), modifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 6.dp)) {
-
-        Box(modifier = Modifier.width(130.dp)) {
-
-            Image(
-                painter = painterResource(id = R.drawable.cross),
-                contentDescription = "",
-                Modifier
-                    .padding(12.dp)
-                    .size(12.dp)
-                    .align(Alignment.TopEnd)
-            )
-
-        }
-
-
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(vertical = 8.dp  , horizontal = 6.dp)
-        ) {
-            Spacer(modifier = Modifier.size(4.dp))
-            Image(
-                painter = painterResource(id = R.drawable.avater),
-                contentDescription = "",
-                modifier = Modifier.size(40.dp)
-            )
-            Text(
-                text = "Zahid Hasan",
-                fontSize = 12.sp,
-                lineHeight = 16.sp,
-                color = Color.White,
-                modifier =
-                Modifier
-                    .width(60.dp)
-                    .padding(top = 6.dp),
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(modifier = Modifier.size(4.dp))
-            Row() {
-                Image(
-                    painter = painterResource(id = R.drawable.small_diamod),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .padding(top = (2.5).dp)
-                        .size(12.dp)
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-                Text(
-                    text = "220",
-                    color = Color(0xff94A3B8),
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.W600
-                )
-
-
-            }
-
-            if(isFollow){
-                Card(
-                    shape = RoundedCornerShape(5.dp),
-                    elevation = 0.dp,
-                    backgroundColor = Color(0xff0F172A),
-                    modifier = Modifier.padding(horizontal = 18.dp, vertical = 6.dp)
-                ) {
-
-                    Text(
-                        text = "Following",
-                        color = Color.White,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .padding(4.dp)
-                            .width(80.dp),
-                        fontSize = 10.sp
-                    )
-
-                }
-            }else{
-                Card(
-                    shape = RoundedCornerShape(5.dp),
-                    elevation = 4.dp,
-                    backgroundColor = Color(0xffFF136F),
-                    modifier = Modifier.padding(horizontal = 18.dp, vertical = 6.dp)
-                ) {
-
-                    Text(
-                        text = "Follow",
-                        color = Color.White,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .padding(4.dp)
-                            .width(80.dp),
-                        fontSize = 10.sp
-                    )
-
-                }
-            }
-
-        }
-
-
-    }
-
-}
-
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun DefaultPreview() {
     PHUITheme {
-       BadgePage()
+        BadgePage()
     }
 }

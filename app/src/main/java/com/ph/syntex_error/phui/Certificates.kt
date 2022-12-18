@@ -1,11 +1,9 @@
 package com.ph.syntex_error.phui
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -74,7 +72,7 @@ fun CertificatePage()
 
 
 @Composable
-fun CertificateItem(){
+fun CertificateItem(showUserAvater : Boolean = false){
     Card (
         shape = RoundedCornerShape(12.dp),
         backgroundColor = Color(0xff1E293B),
@@ -83,7 +81,9 @@ fun CertificateItem(){
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp , vertical = 10.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp, vertical = 10.dp)
         ) {
             Text(text = "Long text with certificate name in medium size.", color = Color.White ,
             fontSize = 16.sp)
@@ -95,6 +95,62 @@ fun CertificateItem(){
 
                     .clip(RoundedCornerShape(10.dp)),
             )
+
+
+            Spacer(modifier = Modifier.size(16.dp))
+
+            Row(horizontalArrangement = Arrangement.SpaceAround ,
+
+            modifier = Modifier.fillMaxWidth()
+            ) {
+
+                Image(
+                    painter = painterResource(id = R.drawable.man),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clip(CircleShape)
+                        .border(3.dp, Color(0xffD9EFFF), CircleShape)// clip to the circle shape
+                )
+
+                Image(
+                    painter = painterResource(id = R.drawable.man),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clip(CircleShape)
+                        .border(3.dp, Color(0xffD9EFFF), CircleShape)// clip to the circle shape
+                )
+
+                Image(
+                    painter = painterResource(id = R.drawable.man),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clip(CircleShape)
+                        .border(3.dp, Color(0xffD9EFFF), CircleShape)// clip to the circle shape
+                )
+
+                Image(
+                    painter = painterResource(id = R.drawable.man),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clip(CircleShape)
+                        .border(3.dp, Color(0xffD9EFFF), CircleShape)// clip to the circle shape
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.man),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clip(CircleShape)
+                        .border(3.dp, Color(0xffD9EFFF), CircleShape)// clip to the circle shape
+                )
+
+
+
+            }
         }
 
 
