@@ -38,195 +38,195 @@ fun ModulePage(navController: NavHostController) {
         )
         Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
 
-            Row(
-                modifier = Modifier
-                    .background(Color(0xff0F172A))
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
 
-                Image(
-                    painter = painterResource(id = R.drawable.backbtn), contentDescription = "",
-                    modifier = Modifier
-                        .height((15.4).dp)
-                        .width(18.dp)
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                Card(
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier
-
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                Brush.linearGradient(
-                                    colors = listOf(
-                                        Color(0xffAEBBFF),
-                                        Color(0xff9ED0FF),
-
-                                        )
-                                )
-                            )
-                    ) {
-                        Card(
-                            shape = RoundedCornerShape(20.dp),
-                            modifier = Modifier
-                                .align(Alignment.Center)
-                                .padding(
-                                    top = 1.dp,
-                                    bottom = 4.dp,
-                                    start = (1.5).dp,
-                                    end = (1.5).dp
-                                )
-                        ) {
-                            Box(
-                                modifier = Modifier.background(
-                                    Brush.linearGradient(
-                                        colors = listOf(
-                                            Color(0xff5F5FFF),
-                                            Color(0xff5222D0),
-
-                                            )
-                                    )
-
-
-                                )
-                            ) {
-                                Row(
-                                    modifier = Modifier.padding(horizontal = 4.dp, vertical = 6.dp),
-                                    horizontalArrangement = Arrangement.Center,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-
-                                    Image(
-                                        painter = painterResource(id = R.drawable.diamond_2),
-                                        contentDescription = "",
-                                        modifier = Modifier
-                                            .size(16.dp)
-                                            .padding(bottom = 2.dp)
-                                    )
-
-                                    Text(
-                                        text = " 23256 ",
-                                        fontSize = 13.sp,
-                                        color = Color.White,
-                                        fontWeight = FontWeight.W600,
-                                        style = TextStyle(
-                                            platformStyle = PlatformTextStyle(
-                                                includeFontPadding = false
-                                            )
-                                        ),
-                                        modifier = Modifier.padding(horizontal = 4.dp)
-                                    )
-
-
-                                }
-                            }
-
-
-                        }
-
-                    }
-
-
-                }
-
-
-                Card(
-                    shape = RoundedCornerShape(20.dp),
-                    modifier = Modifier.padding(horizontal = 8.dp)
-
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .background(
-                                Brush.linearGradient(
-                                    colors = listOf(
-                                        Color(0xffFFD6AE),
-                                        Color(0xffFF9EA7),
-
-                                        )
-                                )
-                            )
-                    ) {
-                        Card(
-                            shape = RoundedCornerShape(20.dp),
-                            modifier = Modifier
-                                .align(Alignment.Center)
-                                .padding(
-                                    top = 1.dp,
-                                    bottom = 4.dp,
-                                    start = (1.5).dp,
-                                    end = (1.5).dp
-                                )
-                        ) {
-                            Box(
-                                modifier = Modifier.background(
-                                    Brush.linearGradient(
-                                        colors = listOf(
-                                            Color(0xffF9A641),
-                                            Color(0xffFE4D60),
-
-                                            )
-                                    )
-
-
-                                )
-                            ) {
-                                Row(
-                                    modifier = Modifier.padding(horizontal = 4.dp, vertical = 6.dp),
-                                    horizontalArrangement = Arrangement.Center,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-
-
-                                    Text(
-                                        text = " Upgrade To Pro ",
-                                        fontSize = 13.sp,
-                                        color = Color(0xff0F172A),
-                                        fontWeight = FontWeight.SemiBold,
-                                        style = TextStyle(
-                                            platformStyle = PlatformTextStyle(
-                                                includeFontPadding = false
-                                            ), fontFamily = Poppins
-                                        ),
-                                        modifier = Modifier.padding(horizontal = 4.dp)
-                                    )
-
-
-                                }
-                            }
-
-
-                        }
-
-                    }
-
-
-                }
-
-                Image(
-                    painter = painterResource(id = R.drawable.trophy_with_back),
-                    contentDescription = ""
-                )
-
-            }
             
-            
-            Box(modifier = Modifier.height(220.dp)){
-                
+            Box(modifier = Modifier.height(240.dp)){
+
+
                 Image( painter = painterResource(id = R.drawable.video_cover),
                     contentDescription = "" )
 
 
                 Image( painter = painterResource(id = R.drawable.play),
                     contentDescription = "" , contentScale = ContentScale.Crop , modifier = Modifier.align(Alignment.Center) )
-                
+                Row(
+                    modifier = Modifier
+                        .background(Color.Transparent)
+                        .fillMaxWidth()
+                        .height(56.dp)
+                        .padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    Image(
+                        painter = painterResource(id = R.drawable.backbtn), contentDescription = "",
+                        modifier = Modifier
+                            .height((15.4).dp)
+                            .width(18.dp)
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    Card(
+                        shape = RoundedCornerShape(20.dp),
+                        modifier = Modifier
+
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .background(
+                                    Brush.linearGradient(
+                                        colors = listOf(
+                                            Color(0xffAEBBFF),
+                                            Color(0xff9ED0FF),
+
+                                            )
+                                    )
+                                )
+                        ) {
+                            Card(
+                                shape = RoundedCornerShape(20.dp),
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .padding(
+                                        top = 1.dp,
+                                        bottom = 4.dp,
+                                        start = (1.5).dp,
+                                        end = (1.5).dp
+                                    )
+                            ) {
+                                Box(
+                                    modifier = Modifier.background(
+                                        Brush.linearGradient(
+                                            colors = listOf(
+                                                Color(0xff5F5FFF),
+                                                Color(0xff5222D0),
+
+                                                )
+                                        )
+
+
+                                    )
+                                ) {
+                                    Row(
+                                        modifier = Modifier.padding(horizontal = 4.dp, vertical = 6.dp),
+                                        horizontalArrangement = Arrangement.Center,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+
+                                        Image(
+                                            painter = painterResource(id = R.drawable.diamond_2),
+                                            contentDescription = "",
+                                            modifier = Modifier
+                                                .size(16.dp)
+                                                .padding(bottom = 2.dp)
+                                        )
+
+                                        Text(
+                                            text = " 23256 ",
+                                            fontSize = 13.sp,
+                                            color = Color.White,
+                                            fontWeight = FontWeight.W600,
+                                            style = TextStyle(
+                                                platformStyle = PlatformTextStyle(
+                                                    includeFontPadding = false
+                                                )
+                                            ),
+                                            modifier = Modifier.padding(horizontal = 4.dp)
+                                        )
+
+
+                                    }
+                                }
+
+
+                            }
+
+                        }
+
+
+                    }
+
+
+                    Card(
+                        shape = RoundedCornerShape(20.dp),
+                        modifier = Modifier.padding(horizontal = 8.dp)
+
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .background(
+                                    Brush.linearGradient(
+                                        colors = listOf(
+                                            Color(0xffFFD6AE),
+                                            Color(0xffFF9EA7),
+
+                                            )
+                                    )
+                                )
+                        ) {
+                            Card(
+                                shape = RoundedCornerShape(20.dp),
+                                modifier = Modifier
+                                    .align(Alignment.Center)
+                                    .padding(
+                                        top = 1.dp,
+                                        bottom = 4.dp,
+                                        start = (1.5).dp,
+                                        end = (1.5).dp
+                                    )
+                            ) {
+                                Box(
+                                    modifier = Modifier.background(
+                                        Brush.linearGradient(
+                                            colors = listOf(
+                                                Color(0xffF9A641),
+                                                Color(0xffFE4D60),
+
+                                                )
+                                        )
+
+
+                                    )
+                                ) {
+                                    Row(
+                                        modifier = Modifier.padding(horizontal = 4.dp, vertical = 6.dp),
+                                        horizontalArrangement = Arrangement.Center,
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+
+
+                                        Text(
+                                            text = " Upgrade To Pro ",
+                                            fontSize = 13.sp,
+                                            color = Color(0xff0F172A),
+                                            fontWeight = FontWeight.SemiBold,
+                                            style = TextStyle(
+                                                platformStyle = PlatformTextStyle(
+                                                    includeFontPadding = false
+                                                ), fontFamily = Poppins
+                                            ),
+                                            modifier = Modifier.padding(horizontal = 4.dp)
+                                        )
+
+
+                                    }
+                                }
+
+
+                            }
+
+                        }
+
+
+                    }
+
+                    Image(
+                        painter = painterResource(id = R.drawable.trophy_with_back),
+                        contentDescription = ""
+                    )
+
+                }
             }
 
             Column(modifier = Modifier.padding(horizontal = 16.dp)) {

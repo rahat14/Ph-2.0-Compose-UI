@@ -263,11 +263,12 @@ fun GemCountCard() {
                 Row(verticalAlignment = Alignment.CenterVertically) {
 
                     Text(
-                        text = "1330", style = MaterialTheme.typography.body1.copy(
+                        text = "1330 ", style = MaterialTheme.typography.body1.copy(
                             fontSize = 24.sp, color = orangeColor,
                             platformStyle = PlatformTextStyle(
                                 includeFontPadding = false
-                            )
+                            ),
+                            fontWeight = FontWeight.Bold
                         )
                     )
                     Text(

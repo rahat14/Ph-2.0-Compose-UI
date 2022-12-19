@@ -267,6 +267,8 @@ fun PlanetItem(isActive: Boolean = false, isSat: Boolean = false , navController
 
 
         if (isActive) {
+            
+            Spacer(modifier = Modifier.weight(1f))
 
             Image(
                 painter = painterResource(id = R.drawable.space_man),
@@ -544,12 +546,15 @@ fun VideoCourseDetails(
 
                 Image(
                     painter = painterResource(id = R.drawable.video_cover),
-                    contentDescription = ""
+                    contentDescription = "",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxWidth()
+                        .height(210.dp)
                 )
 
 
                 Image(
-                    painter = painterResource(id = R.drawable.play),
+                    painter = painterResource(id = R.drawable.player_play),
                     contentDescription = "",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.align(Alignment.Center)
@@ -561,9 +566,10 @@ fun VideoCourseDetails(
 
             Column(modifier = Modifier
                 .padding(
-                horizontal = 16.dp,
-                    vertical = 4.dp
-            ).verticalScroll(rememberScrollState())) {
+                    horizontal = 16.dp,
+                    vertical = 0.dp
+                )
+                .verticalScroll(rememberScrollState())) {
 
                 VideoItem()
                 VideoItem()

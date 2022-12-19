@@ -279,6 +279,20 @@ fun HomePage(navController: NavHostController) {
                 }
             }
 
+            Row(modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .padding(top = 12.dp)) {
+                Text(
+                    text = "My Courses",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = Color.White
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Text(
+                    text = "View All", fontSize = 14.sp, color = Color(0xff94A3B8)
+                )
+            }
 
             MyCourseHorizontal()
 
@@ -336,11 +350,11 @@ fun HomePage(navController: NavHostController) {
 @Composable
 fun VideoCourseContainer(navController: NavHostController) {
     Column(modifier = Modifier
-        .padding(vertical = 8.dp)
         .clickable {
             navController.navigate("module-page")
 
-        }
+        },
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         Row(modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)) {
@@ -371,15 +385,20 @@ fun VideoCourseContainer(navController: NavHostController) {
 
         }
 
+        Image(painter = painterResource(id = R.drawable.scroll_indicator),
+            contentDescription = "" , modifier = Modifier.padding(top = 13.dp , bottom = 4.dp) )
+
+
 
     }
 }
 
 @Composable
 fun TrendingCourseContainer() {
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(modifier = Modifier.padding(horizontal = 0.dp) ,
+    horizontalAlignment = Alignment.CenterHorizontally) {
 
-        Row(modifier = Modifier.padding(vertical = 8.dp)) {
+        Row(modifier = Modifier.padding(vertical = 8.dp , horizontal = 16.dp)) {
             Text(
                 text = "Trending Courses",
                 fontSize = 16.sp,
@@ -407,15 +426,20 @@ fun TrendingCourseContainer() {
 
         }
 
+        Image(painter = painterResource(id = R.drawable.scroll_indicator),
+            contentDescription = "" , modifier = Modifier.padding(top = 13.dp , bottom = 4.dp) )
+
+
 
     }
 }
 
 @Composable
 fun UpcomingCourseContainer() {
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(modifier = Modifier.padding(0.dp)
+    , horizontalAlignment = Alignment.CenterHorizontally) {
 
-        Row(modifier = Modifier.padding(vertical = 8.dp)) {
+        Row(modifier = Modifier.padding(vertical = 8.dp , horizontal = 16.dp)) {
             Text(
                 text = "Upcoming Courses",
                 fontSize = 16.sp,
@@ -444,14 +468,18 @@ fun UpcomingCourseContainer() {
         }
 
 
+        Image(painter = painterResource(id = R.drawable.scroll_indicator),
+            contentDescription = "" , modifier = Modifier.padding(top = 13.dp , bottom = 4.dp) )
+
+
     }
 }
 
 @Composable
 fun ShortCourseContainer() {
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(modifier = Modifier.padding(0.dp)) {
 
-        Row(modifier = Modifier.padding(vertical = 8.dp)) {
+        Row(modifier = Modifier.padding(vertical = 8.dp , horizontal = 16.dp)) {
             Text(
                 text = "Short Courses",
                 fontSize = 16.sp,
@@ -547,7 +575,7 @@ fun TrendingCourseCard() {
 @Composable
 fun UpcomingCourseCard() {
     Card(
-        shape = RoundedCornerShape(topEnd = 12.dp, topStart = 12.dp),
+        shape = RoundedCornerShape(12.dp),
         backgroundColor = Color.Transparent,
         modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
 
@@ -600,6 +628,10 @@ fun UpcomingCourseCard() {
                     }
                 }
             }
+
+
+
+
 
 
         }
@@ -685,7 +717,8 @@ fun ShortCourseCard() {
 fun MyCourseHorizontal() {
 
     Card(
-        backgroundColor = cardBackgroundColor, modifier = Modifier.padding(12.dp),
+        backgroundColor = cardBackgroundColor, modifier = Modifier.padding(horizontal = 12.dp ,
+            vertical = 9.dp),
 
         shape = RoundedCornerShape(12.dp),
     ) {
@@ -695,6 +728,7 @@ fun MyCourseHorizontal() {
                 .background(cardBackgroundColor)
                 .padding(horizontal = 12.dp, vertical = 12.dp)
         ) {
+
             Row(
                 verticalAlignment = Alignment.Top,
             ) {

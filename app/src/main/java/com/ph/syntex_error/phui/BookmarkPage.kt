@@ -46,7 +46,8 @@ fun BookmarkPage() {
 
             Text(
                 text = "Bookmarks", style = MaterialTheme.typography.h1.copy(
-                    fontSize = 17.sp, color = Color.White
+                    fontSize = 16.sp, color = Color.White,
+                    fontWeight = FontWeight.Medium
                 )
             )
 

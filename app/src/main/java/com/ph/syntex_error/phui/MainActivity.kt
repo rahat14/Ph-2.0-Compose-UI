@@ -104,7 +104,7 @@ fun ProfilePage(navController: NavHostController) {
             Card(backgroundColor = Color(0xff1E293B)) {
                 Row(modifier = Modifier.padding(6.dp)) {
                     Image(
-                        painter = painterResource(id = R.drawable.settings),
+                        painter = painterResource(id = R.drawable.gear_icon),
                         contentDescription = "",
                         modifier = Modifier.size(18.dp)
                     )
@@ -205,9 +205,9 @@ fun profileComplete() {
             Text(
                 text = "Complete Profile",
                 style = TextStyle(
-                    fontSize = 15.sp, color = Color(0xffFF136F)
+                    fontSize = 14.sp, color = Color(0xffFF136F)
                 ),
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.SemiBold,
                 fontFamily = Poppins,
                 textDecoration = TextDecoration.combine(
                     listOf(
@@ -597,8 +597,8 @@ fun AchievementItem(
                 contentDescription = "",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
-                    .padding(vertical = 16.dp, horizontal = 12.dp)
-                    .size(40.dp)
+                    .padding(vertical = 14.dp, horizontal = 12.dp)
+                    .size(30.dp)
             )
 
         }
@@ -803,8 +803,8 @@ fun InviteFriendContainer() {
 @Composable
 fun FriendsContainer(navController: NavHostController) {
 
-    Column(modifier = Modifier.padding(16.dp)) {
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+    Column(modifier = Modifier.padding(vertical = 16.dp)) {
+        Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(
                 text = "Friends",
                 fontSize = 16.sp,

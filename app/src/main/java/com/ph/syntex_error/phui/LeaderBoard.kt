@@ -46,7 +46,8 @@ fun LeaderBoardPage() {
 
             Text(
                 text = "Leaderboard", style = MaterialTheme.typography.h1.copy(
-                    fontSize = 17.sp, color = Color.White
+                    fontSize = 16.sp, color = Color.White ,
+                    fontWeight = FontWeight.W400
                 )
             )
 
@@ -145,12 +146,21 @@ fun LeaderItem(isFirst: Boolean = false) {
         ) {
 
 
-            Text(
-                text = "123",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color.White
-            )
+            if(isFirst){
+                Text(
+                    text = "123",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.White
+                )
+            }else {
+                Text(
+                    text = "01",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = Color(0xff475569)
+                )
+            }
 
             Image(
                 painter = painterResource(id = R.drawable.avater), contentDescription = "",
@@ -183,7 +193,7 @@ fun LeaderItem(isFirst: Boolean = false) {
         ) {
 
             Image(
-                painter = painterResource(id = R.drawable.diamond_2), contentDescription = "",
+                painter = painterResource(id = R.drawable.small_diamod), contentDescription = "",
                 modifier = Modifier
                     .padding(bottom = 3.dp)
                     .size(13.dp)
@@ -247,7 +257,7 @@ fun LeaderStandingCard() {
             Row {
 
                 Image(
-                    painter = painterResource(id = R.drawable.diamond_2), contentDescription = "",
+                    painter = painterResource(id = R.drawable.small_diamod), contentDescription = "",
                     modifier = Modifier.size(13.dp)
                 )
 
@@ -310,7 +320,7 @@ fun LeaderStandingCard() {
             Row {
 
                 Image(
-                    painter = painterResource(id = R.drawable.diamond_2), contentDescription = "",
+                    painter = painterResource(id = R.drawable.small_diamod), contentDescription = "",
                     modifier = Modifier.size(13.dp)
                 )
 
@@ -368,7 +378,7 @@ fun LeaderStandingCard() {
             Row {
 
                 Image(
-                    painter = painterResource(id = R.drawable.diamond_2), contentDescription = "",
+                    painter = painterResource(id = R.drawable.small_diamod), contentDescription = "",
                     modifier = Modifier.size(13.dp)
                 )
 
