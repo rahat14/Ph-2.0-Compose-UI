@@ -2,27 +2,45 @@ package com.ph.syntex_error.phui
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 
-
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -30,13 +48,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.drawable.toBitmap
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.ph.syntex_error.phui.auth.LoginScreen
 import com.ph.syntex_error.phui.ui.theme.PHUITheme
 import com.ph.syntex_error.phui.ui.theme.Poppins
 import com.ph.syntex_error.phui.ui.theme.profileBackgroundColor
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,13 +68,90 @@ class MainActivity : ComponentActivity() {
             PHUITheme {
 
                 // A surface container using the 'background' color from the theme
-                val navController = rememberNavController()
+              //  val navController = rememberNavController()
                 //VideoCourseDetails()
-               HomePageScreen(navController)
-              //  ModuleLessonItem()
+                //  AllCoursePage(navController)
+
+                LoginScreen()
+
+                // BadgePage()
+
 
             }
         }
+    }
+}
+
+@Composable
+@Preview
+fun temPreview() {
+
+    PHUITheme {
+
+        OnBoardingScreen()
+    }
+
+}
+
+
+@Composable
+ fun AutoScrollingImage() {
+    // Load your image into a Bitmap
+    val drawable = LocalContext.current.getDrawable(R.drawable.small2)
+    val bitmap = drawable?.toBitmap()?.asImageBitmap()
+
+    // Calculate the aspect ratio of the image
+    val aspectRatio = bitmap?.width?.toFloat()?.div(bitmap.height.toFloat())
+
+    // Set the height of the image
+    val imageHeight = 600.dp
+
+    // Calculate the width of the image based on the aspect ratio and height
+    val imageWidth = aspectRatio?.times(imageHeight.value)
+
+    // Create a ScrollState object to keep track of the current scroll position
+    val scrollState = rememberScrollState()
+
+    // Calculate the total width of the image
+    val totalWidth = (imageWidth?.minus(scrollState.maxValue))?.coerceAtLeast(0f)
+
+    // Animate the scroll position to create a smooth and continuous scrolling motion
+    val animatedFloat = remember { Animatable(0f) }
+
+    val infiniteTransition = rememberInfiniteTransition()
+
+    val scale by infiniteTransition.animateFloat(
+        initialValue = 0f, targetValue = 5200f as Float, animationSpec = infiniteRepeatable(
+            animation = tween(easing = LinearEasing , durationMillis = 5000), repeatMode = RepeatMode.Reverse
+        )
+    )
+
+
+    // Wrap the image in a LazyRow with a width equal to the calculated width
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .horizontalScroll(scrollState),
+    ) {
+
+            // Draw the image at the current scroll position
+        Box(
+                modifier = Modifier.offset{
+                                          IntOffset(x = -scale.toInt() , y = 0 )
+                },
+            ) {
+                if (bitmap != null) {
+                    Image(
+                        bitmap = bitmap,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .fillMaxWidth(),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+            }
+
     }
 }
 
@@ -255,19 +355,23 @@ fun ProfileCard() {
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Bottom,
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth()
+
         ) {
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(26.dp))
 
-            Image(
-                painter = painterResource(id = R.drawable.profile_demo),
-                contentDescription = "",
-                Modifier.size(90.dp)
-            )
+            Box(modifier = Modifier.dashedBorder(2.dp, 45.dp, Color.Red)) {
+                Image(
+                    painter = painterResource(id = R.drawable.profile_demo),
+                    contentDescription = "",
+                    Modifier
+                        .size(90.dp)
+                        .clip(CircleShape)
+                )
+            }
+
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -333,6 +437,7 @@ fun ProfileCard() {
                 Text(text = " Following", color = Color(0xff94A3B8))
 
             }
+
         }
 
     }
@@ -404,15 +509,13 @@ fun LiveSupportContainer(navController: NavHostController) {
             Text(text = " Live Support", color = Color.White)
 
             Spacer(modifier = Modifier.weight(1f))
-            Card(backgroundColor = Color(0xFFFF136F), modifier = Modifier.clickable(
-                onClick = {
+            Card(backgroundColor = Color(0xFFFF136F), modifier = Modifier.clickable(onClick = {
 
-                    navController.navigate("gem-store") {
-                        launchSingleTop = true
-                    }
-
+                navController.navigate("gem-store") {
+                    launchSingleTop = true
                 }
-            )) {
+
+            })) {
 
                 Row(
                     Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
@@ -437,7 +540,7 @@ fun LiveSupportContainer(navController: NavHostController) {
 
 @Composable
 fun GradientProgressbar1(
-    yellowEffect: Boolean = false,
+    yellowEffect: Boolean = true,
     indicatorHeight: Dp = 8.dp,
     backgroundIndicatorColor: Color = Color.Black.copy(alpha = 0.2f),
     indicatorPadding: Dp = 8.dp,
@@ -449,9 +552,10 @@ fun GradientProgressbar1(
 
         ),
     animationDuration: Int = 1000,
-    animationDelay: Int = 0
+    animationDelay: Int = 0,
+    downloadedPercentage: Float = 0f
 ) {
-    val downloadedPercentage = 60f
+
 
     val animateNumber = animateFloatAsState(
         targetValue = downloadedPercentage, animationSpec = tween(
@@ -501,17 +605,17 @@ fun GradientProgressbar1(
                 end = Offset(x = progress, y = size.height / 2)
             )
 
-           if(yellowEffect){
+            if (yellowEffect) {
 
-               drawLine(
-                   color = Color(0xffFCD34D),
-                   cap = StrokeCap.Round,
-                   strokeWidth = 8.48f ,
-                   start = Offset(x = 0f * 0.8f, y = size.height / 3),
-                   end = Offset(x = (progress-12), y = size.height / 3)
-               )
+                drawLine(
+                    color = Color(0xffFCD34D),
+                    cap = StrokeCap.Round,
+                    strokeWidth = 8.48f,
+                    start = Offset(x = 0f * 0.8f, y = size.height / 3),
+                    end = Offset(x = (progress - 12), y = size.height / 3)
+                )
 
-           }
+            }
 
 
         }
@@ -582,8 +686,7 @@ fun AchievementItem(
                 navController.navigate(route) {
                     launchSingleTop = true
                 }
-            },
-        verticalAlignment = Alignment.CenterVertically
+            }, verticalAlignment = Alignment.CenterVertically
     ) {
 
         Card(
@@ -683,7 +786,8 @@ fun SavedCard(name: String, icon: Int, navController: NavHostController) {
 
 
     Card(
-        backgroundColor = Color(0xff1E293B), modifier = Modifier
+        backgroundColor = Color(0xff1E293B),
+        modifier = Modifier
             .width(screenWidth / 2)
             .padding(end = 8.dp)
             .clickable {
@@ -691,7 +795,8 @@ fun SavedCard(name: String, icon: Int, navController: NavHostController) {
                     launchSingleTop = true
                 }
 
-            }, shape = RoundedCornerShape(10.dp)
+            },
+        shape = RoundedCornerShape(10.dp)
     ) {
 
         Column(
@@ -702,7 +807,9 @@ fun SavedCard(name: String, icon: Int, navController: NavHostController) {
             Spacer(modifier = Modifier.size(8.dp))
 
             Image(
-                painter = painterResource(id = icon), contentDescription = "", modifier = Modifier
+                painter = painterResource(id = icon),
+                contentDescription = "",
+                modifier = Modifier
                     .padding(horizontal = 8.dp, vertical = 16.dp)
                     .size(60.dp)
             )
@@ -728,7 +835,8 @@ fun SavedCard(name: String, icon: Int, navController: NavHostController) {
 fun InviteFriendContainer() {
 
     Card(
-        backgroundColor = Color(0xFF1E293B), modifier = Modifier
+        backgroundColor = Color(0xFF1E293B),
+        modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
         shape = RoundedCornerShape(8.dp)
@@ -744,7 +852,8 @@ fun InviteFriendContainer() {
         ) {
 
             Image(
-                painter = painterResource(id = R.drawable.people), contentDescription = "",
+                painter = painterResource(id = R.drawable.people),
+                contentDescription = "",
                 Modifier
                     .padding(horizontal = 8.dp, vertical = 12.dp)
                     .size(66.dp)
@@ -783,8 +892,7 @@ fun InviteFriendContainer() {
                         text = "Invite Friends",
                         color = Color.White,
                         textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .padding(vertical = 4.dp, horizontal = 8.dp),
+                        modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
                         fontSize = 14.sp
                     )
 
@@ -804,7 +912,12 @@ fun InviteFriendContainer() {
 fun FriendsContainer(navController: NavHostController) {
 
     Column(modifier = Modifier.padding(vertical = 16.dp)) {
-        Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             Text(
                 text = "Friends",
                 fontSize = 16.sp,
@@ -812,7 +925,9 @@ fun FriendsContainer(navController: NavHostController) {
                 color = Color.White
             )
 
-            Text(text = "View All", color = Color(0xff94A3B8), fontSize = 11.sp,
+            Text(text = "View All",
+                color = Color(0xff94A3B8),
+                fontSize = 11.sp,
                 modifier = Modifier.clickable {
                     navController.navigate("friend-page") {
                         launchSingleTop = true
@@ -838,33 +953,109 @@ fun FriendsContainer(navController: NavHostController) {
 }
 
 
-fun Modifier.dashedBorder(width: Dp, radius: Dp, color: Color) =
-    drawBehind {
-        drawIntoCanvas {
-            val paint = Paint()
-                .apply {
-                    strokeWidth = width.toPx()
-                    this.color = color
-                    style = PaintingStyle.Stroke
-                    pathEffect = PathEffect.dashPathEffect(floatArrayOf(10f, 10f), 0f)
-                }
-            it.drawRoundRect(
-                width.toPx(),
-                width.toPx(),
-                size.width - width.toPx(),
-                size.height - width.toPx(),
-                radius.toPx(),
-                radius.toPx(),
-                paint
+fun Modifier.dashedBorder(width: Dp, radius: Dp, color: Color) = drawBehind {
+    drawIntoCanvas {
+        val paint = Paint().apply {
+            strokeWidth = width.toPx()
+            this.color = color
+            style = PaintingStyle.Stroke
+            pathEffect = PathEffect.dashPathEffect(floatArrayOf(30f, 30f), 0f)
+        }
+        it.drawRoundRect(
+            width.toPx(),
+            width.toPx(),
+            size.width - width.toPx(),
+            size.height - width.toPx(),
+            radius.toPx(),
+            radius.toPx(),
+            paint
+        )
+    }
+}
+
+@Composable
+fun PremiumCourses() {
+
+    AnimatedVisibility(visible = true) {
+        Card(
+            shape = RoundedCornerShape(12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 4.dp)
+        ) {
+
+            Image(
+                painter = painterResource(id = R.drawable.premium_course_bg),
+                contentDescription = "profile card",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxWidth()
+
             )
+
+
+            Box(
+                modifier = Modifier.fillMaxWidth()
+
+
+            ) {
+
+                Image(
+                    painter = painterResource(id = R.drawable.ballon_astronut),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .size(110.dp)
+                        .padding(top = 4.dp),
+                    contentScale = ContentScale.Crop
+                )
+
+            }
+            Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.Center) {
+                Text(
+                    text = "Unlock Premium Courses",
+                    color = Color.White,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.W600
+                )
+                Text(
+                    text = "Get ready to know more\n" + "And get more premium courses",
+                    color = Color(0xFF94A3B8),
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.W400
+                )
+
+                Button(
+                    onClick = {
+
+                    }, colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color(0xff2D7D46),
+                        contentColor = Color(0xff2D7D46),
+                        disabledBackgroundColor = Color(0xff2D7D46),
+                        disabledContentColor = Color(0xff2D7D46)
+                    ), modifier = Modifier.padding(top = 8.dp)
+                ) {
+
+                    Text(text = "Upgrade to Pro", color = Color.White, fontSize = 16.sp)
+
+                }
+            }
+
+
         }
     }
+
+
+}
 
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun DefaultPreview() {
     PHUITheme {
-        BadgePage()
+
+        Column() {
+            GradientProgressbar1(downloadedPercentage = -10f)
+        }
+
     }
 }

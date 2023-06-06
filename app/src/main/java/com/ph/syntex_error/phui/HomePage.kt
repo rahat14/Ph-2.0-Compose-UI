@@ -164,7 +164,8 @@ fun HomePage(navController: NavHostController) {
                                         )
                                 )
                             )
-                    ) {
+                    )
+                    {
                         Card(
                             shape = RoundedCornerShape(20.dp),
                             modifier = Modifier
@@ -230,7 +231,11 @@ fun HomePage(navController: NavHostController) {
 
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
+                    .clickable {
+                    navController.navigate("search-page")
+
+                },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
@@ -526,15 +531,38 @@ fun TrendingCourseCard() {
                 .width(220.dp)
         ) {
 
-            Image(
-                painter = painterResource(id = R.drawable.course_image_demo),
-                contentDescription = null,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(12.dp))
-                    .height(120.dp),
-                contentScale = ContentScale.Crop,
+            Box(modifier = Modifier.height(120.dp)) {
 
-                )
+
+
+
+                Image(
+                    painter = painterResource(id = R.drawable.course_image_demo),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .clip(
+                            RoundedCornerShape(topEnd = 12.dp, topStart = 12.dp)
+                        )
+                        .height(120.dp),
+                    contentScale = ContentScale.Crop,
+
+                    )
+
+
+                Image(
+                    painter = painterResource(id = R.drawable.pro_badge),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(8.dp)
+                    ,
+                    contentScale = ContentScale.Crop,
+
+                    )
+
+
+            }
+
+
 
             Box(
                 modifier = Modifier
@@ -573,17 +601,23 @@ fun TrendingCourseCard() {
 }
 
 @Composable
-fun UpcomingCourseCard() {
+fun UpcomingCourseCard(isOnGrid: Boolean = false ) {
     Card(
         shape = RoundedCornerShape(12.dp),
         backgroundColor = Color.Transparent,
-        modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
+        modifier = Modifier.fillMaxWidth()
+            .padding(horizontal = 4.dp, vertical = 2.dp)
 
     ) {
+        val modifier : Modifier = Modifier.width(220.dp)
+
+        if(isOnGrid){
+            modifier.fillMaxWidth()
+        }
 
         Column(
-            modifier = Modifier
-                .width(220.dp)
+            modifier = modifier
+
         ) {
 
             Image(
@@ -593,14 +627,14 @@ fun UpcomingCourseCard() {
                     .clip(
                         RoundedCornerShape(topEnd = 12.dp, topStart = 12.dp)
                     )
-                    .height(120.dp),
+                    .height(if(isOnGrid){80.dp}else {120.dp}),
                 contentScale = ContentScale.Crop,
 
                 )
 
             Box(
                 modifier = Modifier
-                    .height(100.dp)
+                    .height(if(isOnGrid){60.dp}else {100.dp})
                     .background(
                         Color(0xff2E7EDC)
                     )
@@ -815,6 +849,29 @@ fun RocketProgressbar1(
 //    LaunchedEffect(Unit) {
 //        viewModel.startThreadGradient()
 //    }
+//
+//    Box(modifier = Modifier.fillMaxSize()) {
+//        Canvas(modifier = Modifier.fillMaxSize()) {
+//            drawLine(
+//                color = Color.Red,
+//                start = Offset(0f, size.height / 2),
+//                end = Offset(size.width, size.height / 2),
+//                strokeWidth = 10f,
+//                cap = StrokeCap.Round,
+//                pathEffect = PathEffect.cornerPathEffect(50f)
+//            )
+//        }
+//        Canvas(modifier = Modifier.fillMaxSize()) {
+//            drawLine(
+//                color = Color.Red.copy(alpha = 0.5f),
+//                start = Offset(0f, size.height / 2),
+//                end = Offset(size.width, size.height / 2),
+//                strokeWidth = 60f,
+//                cap = StrokeCap.Round,
+//                pathEffect = PathEffect.cornerPathEffect(100f)
+//            )
+//        }
+//    }
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -857,6 +914,15 @@ fun RocketProgressbar1(
                 radius = 500f
             )
 
+//            drawLine(
+//                color = Color.Red.copy(alpha = 0.5f),
+//                start = Offset(0f, size.height / 2),
+//                end = Offset(size.width, size.height / 2),
+//                strokeWidth = 60f,
+//                cap = StrokeCap.Round,
+//                pathEffect = PathEffect.cornerPathEffect(100f)
+//            )
+
             // Background indicator
             drawLine(
                 color = backgroundIndicatorColor,
@@ -875,16 +941,38 @@ fun RocketProgressbar1(
 //            brush = Brush.linearGradient(
 //                colors = gradientColors, start = Offset(0f, 0f)
 //            ),
+
             drawLine(
                 cap = StrokeCap.Round,
                 strokeWidth = size.height,
                 start = Offset(x = 0f, y = size.height / 2),
                 end = Offset(x = progress, y = size.height / 2),
-                brush = Brush.linearGradient(
-                    colors = gradientColors, start = Offset(0f, 0f)
-                )
+                color =  Color(0xff99D7FF)
             )
+            val center = Offset(size.width / 2, size.height / 2)
 
+            val gradientPaint = Paint().apply {
+                style = PaintingStyle.Fill
+                shader = RadialGradientShader(
+                    center, center.y,
+                    colors = listOf(Color.Red, Color.Transparent),
+                    tileMode = TileMode.Clamp
+                )
+            }
+
+
+            //        }
+//        Canvas(modifier = Modifier.fillMaxSize()) {
+//            drawLine(
+//                color = Color.Red.copy(alpha = 0.5f),
+//                start = Offset(0f, size.height / 2),
+//                end = Offset(size.width, size.height / 2),
+//                strokeWidth = 60f,
+//                cap = StrokeCap.Round,
+//                pathEffect = PathEffect.cornerPathEffect(100f)
+//            )
+//        }
+//    }
 
 
             drawImage(
@@ -903,6 +991,8 @@ fun RocketProgressbar1(
             text = downloadedPercentage.toInt().toString() + "%",
             color = Color.White,
         )
+
+
 
 
     }

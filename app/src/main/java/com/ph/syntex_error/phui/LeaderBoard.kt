@@ -195,15 +195,15 @@ fun LeaderItem(isFirst: Boolean = false) {
             Image(
                 painter = painterResource(id = R.drawable.small_diamod), contentDescription = "",
                 modifier = Modifier
-                    .padding(bottom = 3.dp)
-                    .size(13.dp)
+                    .size(16.dp)
+
             )
 
 
 
             Text(
                 text = "130", style = MaterialTheme.typography.h1.copy(
-                    fontSize = 12.sp, color = Color(0xFFFC9A40),
+                    fontSize = 14.sp, color = Color(0xFFFC9A40),
                     platformStyle = PlatformTextStyle(
                         includeFontPadding = false
                     )
@@ -416,6 +416,7 @@ fun LeaderStandingCard() {
     }
 
 }
+
 
 
 

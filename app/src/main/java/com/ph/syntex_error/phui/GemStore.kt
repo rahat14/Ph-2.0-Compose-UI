@@ -4,6 +4,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -95,6 +96,7 @@ fun BadgePage() {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxWidth()
+
             .verticalScroll(rememberScrollState())
             .background(profileBackgroundColor)
     ) {
@@ -181,21 +183,26 @@ fun BadgePage() {
             }
 
 
-            Card(modifier = Modifier.padding(16.dp) , backgroundColor = cardBackgroundColor , shape = RoundedCornerShape(5.dp)) {
+            Card(modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                , backgroundColor = cardBackgroundColor , shape = RoundedCornerShape(5.dp)) {
 
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(4),
-                    modifier = Modifier.padding(10.dp).height(220.dp),
-                    userScrollEnabled = false
+                    modifier = Modifier
+                        .height(220.dp),
+                    userScrollEnabled = false,
+                    contentPadding = PaddingValues(
+                        horizontal = 8.dp
+                    )
                 )
 
                 {
                     val matrix = ColorMatrix()
 
 
-
-
-                    items(12) {
+                    items(11) {
                         var painter  = painterResource(id = R.drawable.un_locked)
                         if(it < 2 ){
                             matrix.setToSaturation(1F)
@@ -204,12 +211,32 @@ fun BadgePage() {
                             matrix.setToSaturation(0F)
                            painter =  painterResource(id = R.drawable.locked)
                         }
-                        Image(
-                            painter = painterResource(id = R.drawable.un_locked),
-                            contentDescription = "",
-                            modifier = Modifier.size(66.dp).padding(6.dp),
-                            colorFilter = ColorFilter.colorMatrix(matrix)
-                        )
+
+                        Box(modifier = Modifier.padding(4.dp).fillMaxWidth()
+                            ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.avater),
+                                contentDescription = "",
+                                modifier = Modifier
+                                    .fillMaxWidth()// clip
+                                    .clip(CircleShape)// to the circle shape
+                                    .border(2.dp, Color.Gray, CircleShape),
+
+                                colorFilter = ColorFilter.colorMatrix(matrix)
+                            )
+
+
+                            Image(
+                                painter = painterResource(id = R.drawable.un_locked),
+                                contentDescription = "",
+                                modifier = Modifier
+                                    .size(22.dp)
+                                    .align(Alignment.BottomEnd)
+
+                            )
+
+                        }
+
 
 
                     }

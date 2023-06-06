@@ -119,6 +119,10 @@ fun Navigation(navController: NavHostController) {
         composable("leaderboard-page") {
             LeaderBoardPage()
         }
+        composable("search-page") {
+            SearchPage(navController)
+        }
+
 
         composable("bookmark-page") {
             BookmarkPage()
