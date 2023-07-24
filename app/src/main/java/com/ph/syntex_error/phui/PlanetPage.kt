@@ -35,7 +35,16 @@ fun PlanetPage(navController: NavHostController) {
                 .fillMaxSize(),
             contentScale = ContentScale.Crop // Your content scale
         )
-        Column(modifier = Modifier) {
+
+
+
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xff0F172A))
+                .padding(8.dp)
+        ) {
 
             Row(
                 modifier = Modifier
@@ -216,23 +225,23 @@ fun PlanetPage(navController: NavHostController) {
 
             }
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color(0xff0F172A))
-                    .padding(8.dp)
-            ) {
+            Text(
+                text = "Python Day One", fontSize = 18.sp,
+                fontWeight = FontWeight.W700, color = Color.White
+            )
 
-                Text(
-                    text = "Python Day One", fontSize = 18.sp,
-                    fontWeight = FontWeight.W700, color = Color.White
-                )
+            Text(
+                text = "Python In One night ", fontSize = 14.sp,
+                fontWeight = FontWeight.W400, color = Color(0xff475569)
+            )
+        }
 
-                Text(
-                    text = "Python In One night ", fontSize = 14.sp,
-                    fontWeight = FontWeight.W400, color = Color(0xff475569)
-                )
-            }
+
+
+
+        Column(modifier = Modifier) {
+
+
 
 
 

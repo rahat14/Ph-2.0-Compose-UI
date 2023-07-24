@@ -9,17 +9,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -27,11 +24,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.*
+import com.ph.syntex_error.phui.ui.theme.PHUITheme
 import com.ph.syntex_error.phui.ui.theme.Poppins
 import com.ph.syntex_error.phui.ui.theme.cardBackgroundColor
 import com.ph.syntex_error.phui.ui.theme.textInActiveColor
@@ -231,11 +231,12 @@ fun HomePage(navController: NavHostController) {
 
 
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .clickable {
-                    navController.navigate("search-page")
+                        navController.navigate("search-page")
 
-                },
+                    },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
@@ -284,9 +285,11 @@ fun HomePage(navController: NavHostController) {
                 }
             }
 
-            Row(modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .padding(top = 12.dp)) {
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 12.dp)
+            ) {
                 Text(
                     text = "My Courses",
                     fontSize = 16.sp,
@@ -354,11 +357,12 @@ fun HomePage(navController: NavHostController) {
 
 @Composable
 fun VideoCourseContainer(navController: NavHostController) {
-    Column(modifier = Modifier
-        .clickable {
-            navController.navigate("module-page")
+    Column(
+        modifier = Modifier
+            .clickable {
+                navController.navigate("module-page")
 
-        },
+            },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -390,9 +394,10 @@ fun VideoCourseContainer(navController: NavHostController) {
 
         }
 
-        Image(painter = painterResource(id = R.drawable.scroll_indicator),
-            contentDescription = "" , modifier = Modifier.padding(top = 13.dp , bottom = 4.dp) )
-
+        Image(
+            painter = painterResource(id = R.drawable.scroll_indicator),
+            contentDescription = "", modifier = Modifier.padding(top = 13.dp, bottom = 4.dp)
+        )
 
 
     }
@@ -400,10 +405,12 @@ fun VideoCourseContainer(navController: NavHostController) {
 
 @Composable
 fun TrendingCourseContainer() {
-    Column(modifier = Modifier.padding(horizontal = 0.dp) ,
-    horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        modifier = Modifier.padding(horizontal = 0.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
 
-        Row(modifier = Modifier.padding(vertical = 8.dp , horizontal = 16.dp)) {
+        Row(modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)) {
             Text(
                 text = "Trending Courses",
                 fontSize = 16.sp,
@@ -431,9 +438,10 @@ fun TrendingCourseContainer() {
 
         }
 
-        Image(painter = painterResource(id = R.drawable.scroll_indicator),
-            contentDescription = "" , modifier = Modifier.padding(top = 13.dp , bottom = 4.dp) )
-
+        Image(
+            painter = painterResource(id = R.drawable.scroll_indicator),
+            contentDescription = "", modifier = Modifier.padding(top = 13.dp, bottom = 4.dp)
+        )
 
 
     }
@@ -441,10 +449,11 @@ fun TrendingCourseContainer() {
 
 @Composable
 fun UpcomingCourseContainer() {
-    Column(modifier = Modifier.padding(0.dp)
-    , horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        modifier = Modifier.padding(0.dp), horizontalAlignment = Alignment.CenterHorizontally
+    ) {
 
-        Row(modifier = Modifier.padding(vertical = 8.dp , horizontal = 16.dp)) {
+        Row(modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)) {
             Text(
                 text = "Upcoming Courses",
                 fontSize = 16.sp,
@@ -473,8 +482,10 @@ fun UpcomingCourseContainer() {
         }
 
 
-        Image(painter = painterResource(id = R.drawable.scroll_indicator),
-            contentDescription = "" , modifier = Modifier.padding(top = 13.dp , bottom = 4.dp) )
+        Image(
+            painter = painterResource(id = R.drawable.scroll_indicator),
+            contentDescription = "", modifier = Modifier.padding(top = 13.dp, bottom = 4.dp)
+        )
 
 
     }
@@ -484,7 +495,7 @@ fun UpcomingCourseContainer() {
 fun ShortCourseContainer() {
     Column(modifier = Modifier.padding(0.dp)) {
 
-        Row(modifier = Modifier.padding(vertical = 8.dp , horizontal = 16.dp)) {
+        Row(modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp)) {
             Text(
                 text = "Short Courses",
                 fontSize = 16.sp,
@@ -534,8 +545,6 @@ fun TrendingCourseCard() {
             Box(modifier = Modifier.height(120.dp)) {
 
 
-
-
                 Image(
                     painter = painterResource(id = R.drawable.course_image_demo),
                     contentDescription = null,
@@ -553,8 +562,7 @@ fun TrendingCourseCard() {
                     painter = painterResource(id = R.drawable.pro_badge),
                     contentDescription = null,
                     modifier = Modifier
-                        .padding(8.dp)
-                    ,
+                        .padding(8.dp),
                     contentScale = ContentScale.Crop,
 
                     )
@@ -601,17 +609,18 @@ fun TrendingCourseCard() {
 }
 
 @Composable
-fun UpcomingCourseCard(isOnGrid: Boolean = false ) {
+fun UpcomingCourseCard(isOnGrid: Boolean = false) {
     Card(
         shape = RoundedCornerShape(12.dp),
         backgroundColor = Color.Transparent,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(horizontal = 4.dp, vertical = 2.dp)
 
     ) {
-        val modifier : Modifier = Modifier.width(220.dp)
+        val modifier: Modifier = Modifier.width(220.dp)
 
-        if(isOnGrid){
+        if (isOnGrid) {
             modifier.fillMaxWidth()
         }
 
@@ -627,14 +636,26 @@ fun UpcomingCourseCard(isOnGrid: Boolean = false ) {
                     .clip(
                         RoundedCornerShape(topEnd = 12.dp, topStart = 12.dp)
                     )
-                    .height(if(isOnGrid){80.dp}else {120.dp}),
+                    .height(
+                        if (isOnGrid) {
+                            80.dp
+                        } else {
+                            120.dp
+                        }
+                    ),
                 contentScale = ContentScale.Crop,
 
                 )
 
             Box(
                 modifier = Modifier
-                    .height(if(isOnGrid){60.dp}else {100.dp})
+                    .height(
+                        if (isOnGrid) {
+                            60.dp
+                        } else {
+                            100.dp
+                        }
+                    )
                     .background(
                         Color(0xff2E7EDC)
                     )
@@ -662,10 +683,6 @@ fun UpcomingCourseCard(isOnGrid: Boolean = false ) {
                     }
                 }
             }
-
-
-
-
 
 
         }
@@ -751,8 +768,11 @@ fun ShortCourseCard() {
 fun MyCourseHorizontal() {
 
     Card(
-        backgroundColor = cardBackgroundColor, modifier = Modifier.padding(horizontal = 12.dp ,
-            vertical = 9.dp),
+        backgroundColor = cardBackgroundColor,
+        modifier = Modifier.padding(
+            horizontal = 12.dp,
+            vertical = 9.dp
+        ),
 
         shape = RoundedCornerShape(12.dp),
     ) {
@@ -947,7 +967,7 @@ fun RocketProgressbar1(
                 strokeWidth = size.height,
                 start = Offset(x = 0f, y = size.height / 2),
                 end = Offset(x = progress, y = size.height / 2),
-                color =  Color(0xff99D7FF)
+                color = Color(0xff99D7FF)
             )
             val center = Offset(size.width / 2, size.height / 2)
 
@@ -993,8 +1013,6 @@ fun RocketProgressbar1(
         )
 
 
-
-
     }
 
 
@@ -1010,7 +1028,8 @@ fun ContentPage() {
             modifier = Modifier
                 .background(Color(0xff0F172A))
                 .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
 
             Row(
@@ -1219,63 +1238,28 @@ fun ContentPage() {
         }
 
 
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth()
-        ) {
+        Box(modifier = Modifier) {
 
-            Text(
-                text = "Data Structure",
-                fontSize = 16.sp,
-                color = Color.Black,
-                style = TextStyle(
-                    platformStyle = PlatformTextStyle(
-                        includeFontPadding = false
-                    )
-                )
+
+            Image(
+                painter = painterResource(R.drawable.home_bg),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillBounds // Your content scale
             )
 
 
-            Card(shape = RoundedCornerShape(4.dp)) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(4.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.fi_sr_volume_1),
-                        contentDescription = ""
-                    )
+            Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
 
-                    Text(
-                        text = " Audio",
-                        fontSize = 14.sp,
-                        color = Color.Black,
-                    )
-
-                }
-
+                SingleOptions(R.drawable.content_done , 0  )
+                SingleOptions(R.drawable.content_done, 1 )
+                SingleOptions(R.drawable.content_running , 2 )
+                SingleOptions(R.drawable.content_locked , 3 )
 
             }
 
-
         }
 
-
-        Text(
-            text = "Long Taksndfgokas mndkmasd mfas;dmf kasmd maskdfmka sdm", fontSize = 14.sp
-        )
-
-
-        Image(
-            painter = painterResource(id = R.drawable.profile_card_background),
-            contentDescription = "",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .clip(RoundedCornerShape(10.dp)),
-        )
-
-        SingleOptions()
 
     }
 
@@ -1284,21 +1268,48 @@ fun ContentPage() {
 
 
 @Composable
-fun SingleOptions() {
-    Card(
-        shape = RoundedCornerShape(17.dp), backgroundColor = Color(0xff0F172A)
-
+fun SingleOptions(
+    contentImage: Int = R.drawable.content_locked, // locked , done , ongoing
+    index: Int,
+    maxLength : Int = 3
+) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp)
     ) {
-        Row() {
+
+
+        Box(modifier = Modifier.height(110.dp)) {
 
             DashedDivider(
-                color = Color.White,
-                thickness = 12.dp,
+                color = Color(0xff816ECC),
+                thickness = 1.dp,
                 modifier = Modifier
-                    .height(80.dp)
-                    .padding(start = 12.dp)
+                    .height(if(index == 0 ){ 50.dp} else if (index == maxLength){ 50.dp } else { 110.dp})
+                    .align(if(index == 0 ){ Alignment.BottomCenter} else if (index == maxLength){ Alignment.TopCenter } else { Alignment.Center})
 
             )
+
+
+
+            Image(
+                painter = painterResource(id = contentImage),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(20.dp)
+                    .align(Alignment.Center)
+            )
+
+
+        }
+
+        Card(
+            shape = RoundedCornerShape(17.dp), backgroundColor = Color(0xff0F172A),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        ) {
 
             Column(
                 modifier = Modifier.padding(12.dp),
@@ -1308,8 +1319,10 @@ fun SingleOptions() {
                 Text(
                     text = "Decision Making",
                     fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp,
-                    color = Color.White
+                    fontSize = 14.sp,
+                    color = Color.White,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = "9/9",
@@ -1329,15 +1342,16 @@ fun SingleOptions() {
         }
     }
 
+
 }
 
 
 @Composable
 fun DashedDivider(
-    thickness: Dp = 22.dp,
+    thickness: Dp = 1.dp,
     color: Color = Color.White,
-    phase: Float = 110f,
-    intervals: FloatArray = floatArrayOf(25f, 45f),
+    phase: Float = 10f,
+    intervals: FloatArray = floatArrayOf(25f, 50f),
     modifier: Modifier
 ) {
     Canvas(
@@ -1610,5 +1624,17 @@ fun AchievementTab() {
 
     }
 
+
+}
+
+
+@Composable
+@Preview
+fun contentPreview1() {
+
+    PHUITheme {
+
+        ContentPage()
+    }
 
 }

@@ -1,42 +1,32 @@
 package com.ph.syntex_error.phui
 
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -48,32 +38,35 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.drawable.toBitmap
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ph.syntex_error.phui.auth.LoginScreen
+import com.ph.syntex_error.phui.auth.WelcomeScreen
+import com.ph.syntex_error.phui.reels.ReelHomePage
 import com.ph.syntex_error.phui.ui.theme.PHUITheme
 import com.ph.syntex_error.phui.ui.theme.Poppins
 import com.ph.syntex_error.phui.ui.theme.profileBackgroundColor
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             PHUITheme {
 
                 // A surface container using the 'background' color from the theme
-              //  val navController = rememberNavController()
+                val navController = rememberNavController()
                 //VideoCourseDetails()
-                //  AllCoursePage(navController)
+                // AllCoursePage(navController)
+                //  HomePageScreen(navController = navController)
 
-                LoginScreen()
-
+                ReelHomePage()
                 // BadgePage()
 
 
@@ -82,20 +75,13 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-@Preview
-fun temPreview() {
 
-    PHUITheme {
 
-        OnBoardingScreen()
-    }
 
-}
 
 
 @Composable
- fun AutoScrollingImage() {
+fun AutoScrollingImage() {
     // Load your image into a Bitmap
     val drawable = LocalContext.current.getDrawable(R.drawable.small2)
     val bitmap = drawable?.toBitmap()?.asImageBitmap()
@@ -122,7 +108,8 @@ fun temPreview() {
 
     val scale by infiniteTransition.animateFloat(
         initialValue = 0f, targetValue = 5200f as Float, animationSpec = infiniteRepeatable(
-            animation = tween(easing = LinearEasing , durationMillis = 5000), repeatMode = RepeatMode.Reverse
+            animation = tween(easing = LinearEasing, durationMillis = 5000),
+            repeatMode = RepeatMode.Reverse
         )
     )
 
@@ -134,23 +121,23 @@ fun temPreview() {
             .horizontalScroll(scrollState),
     ) {
 
-            // Draw the image at the current scroll position
+        // Draw the image at the current scroll position
         Box(
-                modifier = Modifier.offset{
-                                          IntOffset(x = -scale.toInt() , y = 0 )
-                },
-            ) {
-                if (bitmap != null) {
-                    Image(
-                        bitmap = bitmap,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .fillMaxWidth(),
-                        contentScale = ContentScale.Crop
-                    )
-                }
+            modifier = Modifier.offset {
+                IntOffset(x = -scale.toInt(), y = 0)
+            },
+        ) {
+            if (bitmap != null) {
+                Image(
+                    bitmap = bitmap,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth(),
+                    contentScale = ContentScale.Crop
+                )
             }
+        }
 
     }
 }
