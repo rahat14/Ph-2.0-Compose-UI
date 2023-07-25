@@ -53,7 +53,7 @@ import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
 fun ReelListPage() {
     val list = (1..10).map { it.toString() }
 
-    var screenHeight = LocalConfiguration.current.screenHeightDp
+    val screenHeight = LocalConfiguration.current.screenHeightDp
     Box(modifier = Modifier.fillMaxSize()) {
 
         Image(
@@ -360,13 +360,3 @@ fun ReelOptions(modifier: Modifier) {
 
 }
 
-@Composable
-@Preview(showSystemUi = true, showBackground = true)
-fun TemPreview() {
-
-    PHUITheme {
-
-        ReelListPage()
-    }
-
-}
