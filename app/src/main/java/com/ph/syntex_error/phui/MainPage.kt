@@ -19,6 +19,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.ph.syntex_error.phui.reels.MyReelPage
+import com.ph.syntex_error.phui.reels.ReelHomePage
+import com.ph.syntex_error.phui.reels.ReelListPage
+import com.ph.syntex_error.phui.reels.ReelSearch
+import com.ph.syntex_error.phui.reels.ReelSearchResult
 
 sealed class NavigationItem(var route: String, var icon: Int, var title: String) {
     object Home : NavigationItem("home", R.drawable.home, "Home")
@@ -87,11 +92,11 @@ fun BottomNavigationBar(navController: NavController) {
 
 @Composable
 fun Navigation(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = NavigationItem.Home.route) {
+    NavHost(navController = navController, startDestination = "reel-home-page") {
         composable(NavigationItem.Home.route) {
             HomePage(navController)
         }
-        composable(NavigationItem.Enrolled .route) {
+        composable(NavigationItem.Enrolled.route) {
             MyCoursePage()
         }
         composable(NavigationItem.Playground.route) {
@@ -138,6 +143,21 @@ fun Navigation(navController: NavHostController) {
 
         composable("video-page") {
             VideoCourseDetails()
+        }
+        composable("reel-home-page") {
+            ReelHomePage(navController)
+        }
+        composable("reel-list-page") {
+            ReelListPage(navController)
+        }
+        composable("reel-search-page") {
+            ReelSearch(navController)
+        }
+        composable("reel-search-result-page") {
+            ReelSearchResult(navController)
+        }
+        composable("reel-my-page") {
+            MyReelPage(navController)
         }
     }
 }
