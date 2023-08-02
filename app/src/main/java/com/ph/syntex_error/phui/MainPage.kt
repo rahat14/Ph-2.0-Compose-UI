@@ -20,6 +20,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ph.syntex_error.phui.reels.MyReelPage
+import com.ph.syntex_error.phui.reels.ReelCameraPreview
 import com.ph.syntex_error.phui.reels.ReelHomePage
 import com.ph.syntex_error.phui.reels.ReelListPage
 import com.ph.syntex_error.phui.reels.ReelSearch
@@ -159,5 +160,9 @@ fun Navigation(navController: NavHostController) {
         composable("reel-my-page") {
             MyReelPage(navController)
         }
+        composable("reel-camera-page") {
+            ReelCameraPreview(navController)
+        }
+
     }
 }

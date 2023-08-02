@@ -78,12 +78,13 @@ fun ReelGridItem(screenWidth: Int, onClick: () -> Unit) {
             }
             ,
         elevation = 2.dp,
+        backgroundColor = Color.Transparent
     ) {
 
         Box {
 
             AsyncImage(
-                model = "https://random.imagecdn.app/1920/1080",
+                model = "https://images.pexels.com/photos/17314674/pexels-photo-17314674/free-photo-of-a-bouquet-of-roses-in-a-glass-vase.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
                 contentDescription = "",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()

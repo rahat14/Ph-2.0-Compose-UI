@@ -2,6 +2,7 @@ package com.ph.syntex_error.phui.reels
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -72,7 +73,9 @@ fun MyReelPage(navController: NavHostController) {
                 Image(
                     painter = painterResource(R.drawable.backbtn),
                     contentDescription = null,
-                    modifier = Modifier.size(20.dp).padding(bottom = 3.dp),
+                    modifier = Modifier.size(20.dp).padding(bottom = 3.dp).clickable {
+                       navController.popBackStack()
+                    },
                 )
 
                 Text(
@@ -83,7 +86,13 @@ fun MyReelPage(navController: NavHostController) {
 
                 Spacer(modifier = Modifier.weight(1f))
 
-
+                Image(
+                    painter = painterResource(R.drawable.reel_gear_icon),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(start = 8.dp, end = 8.dp)
+                        .size(20.dp), colorFilter = ColorFilter.tint(Color.White)
+                )
 
                 Image(
                     painter = painterResource(R.drawable.reel_share),
@@ -121,7 +130,9 @@ fun MyReelPage(navController: NavHostController) {
         Card(
             shape = RoundedCornerShape(4.dp),
             backgroundColor = Color(0xffFF136F),
-            modifier = Modifier.align(Alignment.BottomCenter).padding(24.dp)
+            modifier = Modifier.align(Alignment.BottomCenter).padding(24.dp).clickable {
+                navController.navigate("reel-camera-page")
+            }
         ) {
             Row(
                 Modifier.padding(vertical = 6.dp, horizontal = 12.dp),

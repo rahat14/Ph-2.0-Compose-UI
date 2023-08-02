@@ -47,6 +47,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.ph.syntex_error.phui.auth.LoginScreen
 import com.ph.syntex_error.phui.auth.WelcomeScreen
+import com.ph.syntex_error.phui.reels.ReelCameraPreview
 import com.ph.syntex_error.phui.reels.ReelHomePage
 import com.ph.syntex_error.phui.ui.theme.PHUITheme
 import com.ph.syntex_error.phui.ui.theme.Poppins
@@ -64,10 +65,10 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 //VideoCourseDetails()
                 // AllCoursePage(navController)
-                  HomePageScreen(navController = navController)
+                //  HomePageScreen(navController = navController)
+                ReelCameraPreview(navController = navController)
 
-
-               // ReelHomePage()
+              //  ReelHomePage(navController = navController)
                 // BadgePage()
 
 
