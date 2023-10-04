@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -97,7 +98,7 @@ fun ReelGridItem(screenWidth: Int, onClick: () -> Unit) {
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 12.dp, vertical = 8.dp)
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
                     .align(Alignment.BottomStart),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start
@@ -109,11 +110,24 @@ fun ReelGridItem(screenWidth: Int, onClick: () -> Unit) {
                     painter = painterResource(id = R.drawable.reel_play),
                     contentDescription = "",
                     modifier = Modifier
-                        .size(13.dp)
+                        .size(20.dp)
                         .padding(bottom = 3.dp)
                 )
                 Spacer(modifier = Modifier.size(4.dp))
                 Text(text = "12.2K", color = Color.White, fontSize = 12.sp)
+
+                Spacer(modifier = Modifier.width(10.dp))
+
+                Image(
+                    painter = painterResource(id = R.drawable.reel_love),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(20.dp)
+                        .padding(bottom = 3.dp),
+                    contentScale = ContentScale.Crop
+                )
+                Spacer(modifier = Modifier.size(4.dp))
+                Text(text = "1.2K", color = Color.White, fontSize = 12.sp)
 
 
             }

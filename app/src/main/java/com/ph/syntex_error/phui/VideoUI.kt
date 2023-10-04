@@ -1,5 +1,6 @@
 package com.ph.syntex_error.phui
 
+import android.media.metrics.PlaybackStateEvent.STATE_ENDED
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
@@ -39,19 +40,19 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.MediaMetadata
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.Player.STATE_ENDED
-import com.google.android.exoplayer2.ui.StyledPlayerView
+import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.PlayerView
 import com.ph.syntex_error.phui.ui.theme.Purple200
 import kotlinx.coroutines.delay
 import java.util.concurrent.TimeUnit
 import kotlin.time.ExperimentalTime
 import kotlin.time.seconds
 
-@OptIn(ExperimentalTime::class)
+@androidx.annotation.OptIn(UnstableApi::class) @OptIn(ExperimentalTime::class)
 @Composable
 fun VideoPlayer(modifier: Modifier = Modifier) {
 
@@ -174,7 +175,7 @@ fun videoPLayer(exoPlayer: ExoPlayer,
             AndroidView(modifier = Modifier.clickable {
                 shouldShowControls = shouldShowControls.not()
             }, factory = {
-                StyledPlayerView(context).apply {
+                PlayerView(context).apply {
                     player = exoPlayer
                     useController = false
                 }
@@ -351,47 +352,6 @@ private fun CenterControls(
 
     val playerState = remember(playbackState()) { playbackState() }
 
-    Row(modifier = modifier, horizontalArrangement = Arrangement.SpaceEvenly) {
-        IconButton(modifier = Modifier.size(40.dp), onClick = onReplayClick) {
-            Image(
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop,
-                painter = painterResource(id = com.google.android.exoplayer2.ui.R.drawable.exo_controls_fastforward),
-                contentDescription = "Replay 5 seconds"
-            )
-        }
-
-        IconButton(modifier = Modifier.size(40.dp), onClick = onPauseToggle) {
-            Image(
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop,
-                painter = when {
-                    isVideoPlaying -> {
-                        painterResource(id = com.google.android.exoplayer2.ui.R.drawable.exo_icon_pause)
-                    }
-
-                    isVideoPlaying.not() && playerState == STATE_ENDED -> {
-                        painterResource(id = com.google.android.exoplayer2.ui.R.drawable.exo_controls_play)
-                    }
-
-                    else -> {
-                        painterResource(id = com.google.android.exoplayer2.ui.R.drawable.exo_icon_play)
-                    }
-                },
-                contentDescription = "Play/Pause"
-            )
-        }
-
-        IconButton(modifier = Modifier.size(40.dp), onClick = onForwardClick) {
-
-            Image(
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop,
-                painter = painterResource(id = com.google.android.exoplayer2.ui.R.drawable.exo_ic_forward),
-                contentDescription = "Forward 10 seconds"
-            )
-        }
-    }
 }
 
 @Composable
@@ -444,14 +404,7 @@ private fun BottomControls(
                 color = Purple200
             )
 
-            IconButton(modifier = Modifier.padding(horizontal = 16.dp), onClick = {}) {
-                Image(
-                    contentScale = ContentScale.Crop,
-                    painter = painterResource(id = com.google.android.exoplayer2.ui.R.drawable.exo_controls_fullscreen_enter),
-                    contentDescription = "Enter/Exit fullscreen"
-                )
-            }
-        }
+          }
     }
 }
 

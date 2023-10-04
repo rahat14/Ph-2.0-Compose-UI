@@ -9,14 +9,26 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.add
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
@@ -48,6 +60,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -63,8 +76,8 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalSnapperApi::class, ExperimentalMaterialApi::class)
 @Composable
-fun ReelListPage(navController: NavHostController) {
-    val list = (1..2).map { it.toString() }
+fun ReelListPage(navController: NavHostController?) {
+    val list = (1..20).map { it.toString() }
 
     val screenHeight = LocalConfiguration.current.screenHeightDp
 
@@ -108,11 +121,13 @@ fun ReelListPage(navController: NavHostController) {
                     Image(
                         painter = painterResource(id = R.drawable.cross),
                         contentDescription = "",
-                        modifier = Modifier.size(18.dp).clickable {
-                          scope.launch {
-                              modalSheetState.hide()
-                          }
-                        },
+                        modifier = Modifier
+                            .size(18.dp)
+                            .clickable {
+                                scope.launch {
+                                    modalSheetState.hide()
+                                }
+                            },
                         colorFilter = ColorFilter.tint(
                             Color(0xff64748B)
                         )
@@ -233,9 +248,11 @@ fun ReelListPage(navController: NavHostController) {
                     Image(
                         painter = painterResource(R.drawable.backbtn),
                         contentDescription = null,
-                        modifier = Modifier.size(20.dp).clickable {
-                            navController.popBackStack()
-                        },
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clickable {
+                                navController?.popBackStack()
+                            },
                     )
 
                     Spacer(modifier = Modifier.weight(1f))
@@ -244,7 +261,7 @@ fun ReelListPage(navController: NavHostController) {
                     Card(
                         shape = RoundedCornerShape(32.dp), backgroundColor = Color(0x1AFF136F),
                         modifier = Modifier.clickable {
-                            navController.navigate("reel-my-page")
+                            navController?.navigate("reel-my-page")
                         }
                     ) {
                         Row(
@@ -281,7 +298,7 @@ fun ReelListPage(navController: NavHostController) {
                             .padding(start = 12.dp, end = 8.dp)
                             .size(18.dp)
                             .clickable {
-                                navController.navigate("reel-search-page")
+                                navController?.navigate("reel-search-page")
                             }, colorFilter = ColorFilter.tint(Color.White)
                     )
 
@@ -293,6 +310,7 @@ fun ReelListPage(navController: NavHostController) {
                 LazyColumn(
                     state = lazyListState,
                     flingBehavior = rememberSnapperFlingBehavior(lazyListState),
+                    contentPadding = PaddingValues(bottom = 40.dp),
                 ) {
                     items(list.size) { index ->
                         ReelItem(screenHeight) { data ->
@@ -300,9 +318,17 @@ fun ReelListPage(navController: NavHostController) {
                                 modalSheetState.show()
                             }
                         }
+
                     }
 
                 }
+
+                Spacer(modifier = Modifier.height(1.dp).padding(WindowInsets.systemBars
+                    .only(WindowInsetsSides.Vertical)
+                    .add(
+                        WindowInsets(left = 0.dp, right = 0.dp, top = 0.dp, bottom = 16.dp)
+                    )
+                    .asPaddingValues()))
 
 
             }
@@ -454,7 +480,7 @@ fun ReelItem(screenHeight: Int, onClick: (String) -> Unit) {
         shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .height((screenHeight - 60).dp)
+            .height((screenHeight - (screenHeight * .12)).dp)
             .padding(bottom = 16.dp, start = 16.dp, end = 16.dp),
         backgroundColor = Color.Transparent,
 
@@ -778,11 +804,24 @@ fun CommentMoreOption(setShowDialog: (Boolean) -> Unit) {
     }
 }
 
+
+
+@Preview(name = "PIXEL", device = Devices.PIXEL)
+@Preview(name = "PIXEL_XL", device = Devices.PIXEL_XL)
+@Preview(name = "PIXEL_2", device = Devices.PIXEL_2)
+@Preview(name = "PIXEL_2_XL", device = Devices.PIXEL_2_XL)
+@Preview(name = "PIXEL_3", device = Devices.PIXEL_3)
+@Preview(name = "PIXEL_3_XL", device = Devices.PIXEL_3_XL)
+@Preview(name = "PIXEL_3A", device = Devices.PIXEL_3A)
+@Preview(name = "PIXEL_3A_XL", device = Devices.PIXEL_3A_XL)
+@Preview(name = "PIXEL_4", device = Devices.PIXEL_4)
+@Preview(name = "PIXEL_4_XL", device = Devices.PIXEL_4_XL)
+@Preview(name = "AUTOMOTIVE_1024p", device = Devices.AUTOMOTIVE_1024p)
 @Composable
 @Preview(showSystemUi = true, showBackground = true)
 fun TemPreview() {
     PHUITheme {
-        //ReelListPage()
+        ReelListPage(null)
     }
 
 }

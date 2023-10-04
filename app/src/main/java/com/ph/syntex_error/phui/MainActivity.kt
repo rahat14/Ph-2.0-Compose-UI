@@ -43,12 +43,22 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.WindowCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import coil.ImageLoader
+import coil.compose.AsyncImage
+import coil.compose.rememberImagePainter
+import coil.decode.VideoFrameDecoder
+import coil.request.ImageRequest
+import coil.request.videoFrameMillis
 import com.ph.syntex_error.phui.auth.LoginScreen
 import com.ph.syntex_error.phui.auth.WelcomeScreen
 import com.ph.syntex_error.phui.reels.ReelCameraPreview
+import com.ph.syntex_error.phui.reels.ReelCreatePage
+import com.ph.syntex_error.phui.reels.ReelGridItem
 import com.ph.syntex_error.phui.reels.ReelHomePage
+import com.ph.syntex_error.phui.reels.ReelListPage
 import com.ph.syntex_error.phui.ui.theme.PHUITheme
 import com.ph.syntex_error.phui.ui.theme.Poppins
 import com.ph.syntex_error.phui.ui.theme.profileBackgroundColor
@@ -58,6 +68,7 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    //   WindowCompat.setDecorFitsSystemWindows(window, true )
         setContent {
             PHUITheme {
 
@@ -65,84 +76,39 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 //VideoCourseDetails()
                 // AllCoursePage(navController)
+              //  ReelListPage(null)
                 //  HomePageScreen(navController = navController)
-                ReelCameraPreview(navController = navController)
+              //  ReelCreatePage()
 
-              //  ReelHomePage(navController = navController)
+            //   ReelHomePage(navController = navController)
                 // BadgePage()
 
+                var context = LocalContext.current
+
+                val imageLoader = ImageLoader
+                    .Builder(context)
+
+                    .components {
+                        add(VideoFrameDecoder.Factory())
+
+                    }
+
+                    .build()
+
+                var readable = ImageRequest.Builder(context)
+                    .data("https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4")
+                    .videoFrameMillis(25000)
+                    .build()
+
+              
+
+
 
             }
         }
     }
 }
 
-
-
-
-
-
-@Composable
-fun AutoScrollingImage() {
-    // Load your image into a Bitmap
-    val drawable = LocalContext.current.getDrawable(R.drawable.small2)
-    val bitmap = drawable?.toBitmap()?.asImageBitmap()
-
-    // Calculate the aspect ratio of the image
-    val aspectRatio = bitmap?.width?.toFloat()?.div(bitmap.height.toFloat())
-
-    // Set the height of the image
-    val imageHeight = 600.dp
-
-    // Calculate the width of the image based on the aspect ratio and height
-    val imageWidth = aspectRatio?.times(imageHeight.value)
-
-    // Create a ScrollState object to keep track of the current scroll position
-    val scrollState = rememberScrollState()
-
-    // Calculate the total width of the image
-    val totalWidth = (imageWidth?.minus(scrollState.maxValue))?.coerceAtLeast(0f)
-
-    // Animate the scroll position to create a smooth and continuous scrolling motion
-    val animatedFloat = remember { Animatable(0f) }
-
-    val infiniteTransition = rememberInfiniteTransition()
-
-    val scale by infiniteTransition.animateFloat(
-        initialValue = 0f, targetValue = 5200f as Float, animationSpec = infiniteRepeatable(
-            animation = tween(easing = LinearEasing, durationMillis = 5000),
-            repeatMode = RepeatMode.Reverse
-        )
-    )
-
-
-    // Wrap the image in a LazyRow with a width equal to the calculated width
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .horizontalScroll(scrollState),
-    ) {
-
-        // Draw the image at the current scroll position
-        Box(
-            modifier = Modifier.offset {
-                IntOffset(x = -scale.toInt(), y = 0)
-            },
-        ) {
-            if (bitmap != null) {
-                Image(
-                    bitmap = bitmap,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth(),
-                    contentScale = ContentScale.Crop
-                )
-            }
-        }
-
-    }
-}
 
 
 @Composable
@@ -513,7 +479,7 @@ fun LiveSupportContainer(navController: NavHostController) {
                 ) {
                     Text(text = " Go ", color = Color.White)
                     Image(
-                        painter = painterResource(id = R.drawable.arrow),
+                        painter = painterResource(id = R.drawable.avater),
                         contentDescription = "",
                         modifier = Modifier
                     )

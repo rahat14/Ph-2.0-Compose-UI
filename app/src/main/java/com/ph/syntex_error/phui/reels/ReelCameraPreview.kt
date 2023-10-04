@@ -66,10 +66,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun ReelCameraPreview(navController: NavController) {
 
-    var scope = rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
 
     val modalSheetState = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden ,
+        initialValue = ModalBottomSheetValue.Hidden,
         confirmValueChange = { it != ModalBottomSheetValue.HalfExpanded },
         skipHalfExpanded = false
     )
@@ -83,7 +83,7 @@ fun ReelCameraPreview(navController: NavController) {
         {
             MusicBottomSheet(modalSheetState)
         }
-    ){
+    ) {
         Box(modifier = Modifier.fillMaxSize()) {
             ExampleCameraScreen()
             ReelCreateOptions(modifier = Modifier.align(Alignment.CenterEnd)) {
@@ -106,7 +106,7 @@ fun ReelCameraPreview(navController: NavController) {
                     }
             )
 
-            BottomContainer(modifier = Modifier.align(Alignment.BottomCenter))
+             BottomContainer(modifier = Modifier.align(Alignment.BottomCenter) , navController)
         }
     }
 
@@ -143,7 +143,7 @@ fun MusicBottomSheet(modalSheetState: ModalBottomSheetState) {
 
                     Row(
                         modifier = Modifier
-                            .padding(horizontal = 12.dp , vertical = 16.dp),
+                            .padding(horizontal = 12.dp, vertical = 16.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Image(
@@ -154,10 +154,7 @@ fun MusicBottomSheet(modalSheetState: ModalBottomSheetState) {
                             text = "Search Here", color = Color(0xff64748B), fontSize = 15.sp,
                             modifier = Modifier.padding(horizontal = 8.dp)
                         )
-
                     }
-
-
 
 
                 }
@@ -167,51 +164,70 @@ fun MusicBottomSheet(modalSheetState: ModalBottomSheetState) {
             val scope = rememberCoroutineScope()
 
 
-            Text(text = "Cancel", color = Color(0xffFF136F) , fontSize = 14.sp , fontWeight = FontWeight.W400 , modifier = Modifier
-                .padding(horizontal = 8.dp)
-                .clickable {
-                    scope.launch {
-                        modalSheetState.hide()
-                    }
+            Text(text = "Cancel",
+                color = Color(0xffFF136F),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.W400,
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .clickable {
+                        scope.launch {
+                            modalSheetState.hide()
+                        }
 
-                })
+                    })
 
         }
 
 
         Spacer(modifier = Modifier.size(8.dp))
 
-        Row(horizontalArrangement = Arrangement.Start , modifier = Modifier.fillMaxWidth()) {
+        Row(horizontalArrangement = Arrangement.Start, modifier = Modifier.fillMaxWidth()) {
 
-            Text(text = "Romantic", color = Color(0xff94A3B8) , fontSize = 12.sp , fontWeight = FontWeight.W400 , modifier = Modifier
-                .padding(horizontal = 8.dp)
-                .border(
-                    (0.8).dp,
-                    color = Color(0xff475569),
-                    shape = RoundedCornerShape(4.dp)
-                )
-                .padding(6.dp)
+            Text(
+                text = "Romantic",
+                color = Color(0xff94A3B8),
+                fontSize = 12.sp,
+                fontWeight = FontWeight.W400,
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .border(
+                        (0.8).dp,
+                        color = Color(0xff475569),
+                        shape = RoundedCornerShape(4.dp)
+                    )
+                    .padding(6.dp)
             )
 
-            Text(text = "Pop", color = Color(0xff94A3B8) , fontSize = 12.sp , fontWeight = FontWeight.W400 , modifier = Modifier
-                .padding(horizontal = 8.dp)
-                .border(
-                    (0.8).dp,
-                    color = Color(0xff475569),
-                    shape = RoundedCornerShape(4.dp)
-                )
-                .padding(6.dp)
+            Text(
+                text = "Pop",
+                color = Color(0xff94A3B8),
+                fontSize = 12.sp,
+                fontWeight = FontWeight.W400,
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .border(
+                        (0.8).dp,
+                        color = Color(0xff475569),
+                        shape = RoundedCornerShape(4.dp)
+                    )
+                    .padding(6.dp)
             )
 
 
-            Text(text = "Sad", color = Color(0xff94A3B8) , fontSize = 12.sp , fontWeight = FontWeight.W400 , modifier = Modifier
-                .padding(horizontal = 8.dp)
-                .border(
-                    (0.8).dp,
-                    color = Color(0xff475569),
-                    shape = RoundedCornerShape(4.dp)
-                )
-                .padding(6.dp)
+            Text(
+                text = "Sad",
+                color = Color(0xff94A3B8),
+                fontSize = 12.sp,
+                fontWeight = FontWeight.W400,
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .border(
+                        (0.8).dp,
+                        color = Color(0xff475569),
+                        shape = RoundedCornerShape(4.dp)
+                    )
+                    .padding(6.dp)
             )
 
         }
@@ -230,7 +246,7 @@ fun MusicBottomSheet(modalSheetState: ModalBottomSheetState) {
             MusicRow()
             MusicRow()
             MusicRow()
-            
+
         }
 
 
@@ -241,7 +257,7 @@ fun MusicBottomSheet(modalSheetState: ModalBottomSheetState) {
 
 @ExperimentalPagerApi
 @Composable
-fun SongTabs(pagerState: PagerState)  {
+fun SongTabs(pagerState: PagerState) {
     // in this function we are creating a list
     // in this list we are specifying data as
     // name of the tab and the icon for it.
@@ -267,7 +283,7 @@ fun SongTabs(pagerState: PagerState)  {
         list.forEachIndexed { index, _ ->
             // on below line we are creating a tab.
             Tab(
-                modifier = Modifier.padding(horizontal = 4.dp, vertical = 5.dp) ,
+                modifier = Modifier.padding(horizontal = 4.dp, vertical = 5.dp),
                 text = {
                     Text(
                         list[index],
@@ -294,16 +310,21 @@ fun MusicRow() {
     Row(
         Modifier
             .fillMaxWidth()
-            .padding(4.dp) , horizontalArrangement = Arrangement.Start , verticalAlignment = Alignment.CenterVertically) {
+            .padding(4.dp),
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
 
-        Box(modifier = Modifier
-            .size(50.dp)
-            .border(
-                (0.8).dp,
-                color = Color(0xff475569),
-                shape = CircleShape
-            )
-            .clip(CircleShape))
+        Box(
+            modifier = Modifier
+                .size(50.dp)
+                .border(
+                    (0.8).dp,
+                    color = Color(0xff475569),
+                    shape = CircleShape
+                )
+                .clip(CircleShape)
+        )
 
         Column(verticalArrangement = Arrangement.Center) {
             Text(
@@ -327,7 +348,7 @@ fun MusicRow() {
 
             )
 
-            
+
         }
 
         Spacer(modifier = Modifier.weight(1f))
@@ -347,7 +368,7 @@ fun MusicRow() {
 }
 
 @Composable
-fun BottomContainer(modifier: Modifier) {
+fun BottomContainer(modifier: Modifier, navController: NavController) {
 
     Column(
         modifier = modifier
@@ -359,12 +380,18 @@ fun BottomContainer(modifier: Modifier) {
         Image(
             painter = painterResource(id = R.drawable.reel_create_btn),
             contentDescription = "",
-            modifier = Modifier.size(88.dp)
+            modifier = Modifier
+                .size(88.dp)
+                .clickable {
+                    navController.navigate("reel-create-page")
+                }
         )
 
 
 
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 20.dp)) {
             Image(
                 painter = painterResource(id = R.drawable.reel_gallery),
                 contentDescription = "",

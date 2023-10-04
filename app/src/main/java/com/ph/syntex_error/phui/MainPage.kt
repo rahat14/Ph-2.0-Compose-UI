@@ -21,6 +21,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ph.syntex_error.phui.reels.MyReelPage
 import com.ph.syntex_error.phui.reels.ReelCameraPreview
+import com.ph.syntex_error.phui.reels.ReelCreatePage
 import com.ph.syntex_error.phui.reels.ReelHomePage
 import com.ph.syntex_error.phui.reels.ReelListPage
 import com.ph.syntex_error.phui.reels.ReelSearch
@@ -93,7 +94,7 @@ fun BottomNavigationBar(navController: NavController) {
 
 @Composable
 fun Navigation(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = "reel-home-page") {
+    NavHost(navController = navController, startDestination = "reel-list-page") {
         composable(NavigationItem.Home.route) {
             HomePage(navController)
         }
@@ -164,5 +165,8 @@ fun Navigation(navController: NavHostController) {
             ReelCameraPreview(navController)
         }
 
+        composable("reel-create-page") {
+            ReelCreatePage(navController)
+        }
     }
 }
